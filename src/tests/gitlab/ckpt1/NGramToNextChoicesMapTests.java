@@ -2,7 +2,7 @@ package tests.gitlab.ckpt1;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -148,7 +148,7 @@ public class NGramToNextChoicesMapTests extends TestsUtility {
         };
         
         // yes this is awful, but i can't think of a better way to do it atm
-        Map<NGram, Item<String, Integer>[]> answers = new HashMap<>();
+        Map<NGram, Item<String, Integer>[]> answers = new TreeMap<>();
         answers.put(ngrams[0], (Item<String, Integer>[]) new Item[3]);
         answers.get(ngrams[0])[0] = new Item<String, Integer>("bip", 1);
         answers.get(ngrams[0])[1] = new Item<String, Integer>("boop", 1);
