@@ -89,6 +89,9 @@ public class MainWindow {
         }
         usersSet.remove(this.username);
         this.usernames = new ArrayList<String>(usersSet);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
         this.model.update(this.usernames);
     }
 
