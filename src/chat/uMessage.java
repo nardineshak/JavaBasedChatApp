@@ -169,7 +169,7 @@ public class uMessage {
         this.frmUmessageLogin.getContentPane().add(this.horizontalStrut,
                 gbc_horizontalStrut);
 
-        JLabel usernameLabel = new JLabel("Username:");
+        JLabel usernameLabel = new JLabel("UWnetID:");
         GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
         gbc_usernameLabel.fill = GridBagConstraints.BOTH;
         gbc_usernameLabel.insets = new Insets(0, 0, 5, 5);
