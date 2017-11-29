@@ -23,7 +23,7 @@ public class CircularArrayComparatorTests extends TestsUtility {
         test("test_a_aa");
         test("test_equality_consistent_with_compare");
         test("test_compare_transitive");
-        
+        test("test_equals_doesnt_modify");
         finish();
     }
     
@@ -109,5 +109,12 @@ public class CircularArrayComparatorTests extends TestsUtility {
         l2.add("a");
         l2.add("b");
         return l1.equals(l2) && l1.compareTo(l2) == 0 ? 1 : 0;
+    }
+    
+    public static int test_equals_doesnt_modify() {
+        CircularArrayFIFOQueue<String> l1 = init();
+        l1.add("a");
+        l1.equals(init());
+        return l1.size() == 1? 1 : 0;
     }
 }
