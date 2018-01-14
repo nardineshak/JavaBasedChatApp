@@ -31,7 +31,10 @@ Throughout p1 and p2, you have written (or used) several distinct implementation
  - Explain your methodology (e.g., if we wanted to re-run your experiment, we would be able to)
  - Include the inputs themselves in the experiments folder
  - Include your data either directly in the write-up or in the experiments folder
- - If you think it helps your explanation, you can include graphs of the outputs (we recommend that you do this for some of them)
+ - You should include graphs of the outputs for at least a few of the questions.
+   You can add a link to an image following the instructions found here:
+https://courses.cs.washington.edu/courses/cse332/18wi/handouts/markdown.pdf
+An example can also be found at the end of this file.
  - We recommend that you keep your "N" (as in "N-gram") constant throughout these experiments. (N = 2 and N = 3 are reasonable.) 
  - You should probably run multiple trials for each data point to help remove outliers.
 
@@ -83,6 +86,12 @@ your best algorithms and data structures on a reasonable machine.
    <pre>TODO</pre>
 
 -----
+
+A sample image:
+
+![](husky.jpg)
+
+To show you how it is done.
 
 ## Above and Beyond ##
 -   Did you do any Above and Beyond?  Describe exactly what you implemented.
