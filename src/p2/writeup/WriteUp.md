@@ -37,21 +37,22 @@ Throughout p1 and p2, you have written (or used) several distinct implementation
 
 
 ### BST vs. AVLTree ###
-Construct input files for BST and AVLTree to demonstrate that an AVL Tree is asymptotically better
-than a Binary Search Tree. To do this, we expect you to show trends.  You might consider fitting a curve to
+Construct inputs for BST and AVLTree to demonstrate that an AVL Tree is asymptotically better
+than a Binary Search Tree. Comparing the worst case for each structure is fine here. 
+To do this, we expect you to show trends.  You might consider fitting a curve to
 your results. Explain your intuition on why your results are what they are.
 <pre>TODO</pre>
 
 ### ChainingHashTable ###
 Your ChainingHashTable should take as an argument to its constructor the type of "chains" it uses.  Determine
-which type of chain is (on average) best: an MTFList, a BST, or an AVL Tree.  Explain your intuition on why
+which type of chain is (on average, not worst case) best: an MTFList, a BST, or an AVL Tree.  Explain your intuition on why
 the answer you got makes sense (or doesn't!). 
 <pre>TODO</pre>
  
 ### Hash Functions ###
 Write a new hash function (it doesn't have to be any good, but remember to include the code in your repository).
 Compare the runtime of your ChainingHashTable when the hash function is varied.  How big of a difference can the
-hash function make?  (You should keep all other inputs (e.g., the chain type) constant.)  Explain your intuition on
+hash function make (on average, not worst case)?  (You should keep all other inputs (e.g., the chain type) constant.)  Explain your intuition on
 why your results are what they are.
 <pre>TODO</pre>
 
