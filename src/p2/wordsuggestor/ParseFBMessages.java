@@ -26,15 +26,20 @@ public final class ParseFBMessages {
         String archive = args[1];
 
         LIFOWorkList<String> messages = new ArrayStack<String>();
-        Document doc = Jsoup
-                .parse(new File(archive + File.separator + "html/messages.htm"), "UTF-8");
-        Elements messagesElements = doc.getElementsByTag("p");
+        File[] listOfFiles = (new File(archive + File.separator + "messages")).listFiles();
 
-        for (Element content : messagesElements) {
-            if (content.previousElementSibling().getElementsByClass("user").text()
-                    .equals(name)) {
-                messages.add(content.text());
-            }
+        for (int i = 0; i < listOfFiles.length; i++) {
+          if (listOfFiles[i].isFile()) {
+              Document doc = Jsoup
+                      .parse(listOfFiles[i], "UTF-8");
+              Elements messagesElements = doc.getElementsByTag("p");
+              for (Element content : messagesElements) {
+                  if (content.previousElementSibling().getElementsByClass("user").text()
+                          .equals(name)) {
+                      messages.add(content.text());
+                  }
+              }
+          }
         }
 
         PrintWriter out = new PrintWriter("me.txt", "UTF-8");
