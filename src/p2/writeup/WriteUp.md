@@ -37,6 +37,10 @@ https://courses.cs.washington.edu/courses/cse332/18wi/handouts/markdown.pdf
 An example can also be found at the end of this file.
  - We recommend that you keep your "N" (as in "N-gram") constant throughout these experiments. (N = 2 and N = 3 are reasonable.) 
  - You should probably run multiple trials for each data point to help remove outliers.
+ - You should not need to wait for hours and hours for your program to run in
+ order to answer a question.  Do use large values for N, but not so large that 
+ you are waiting overnight for your program to run (N=1,000,000 is likely larger 
+ than you need.).
 
 
 ### BST vs. AVLTree ###
