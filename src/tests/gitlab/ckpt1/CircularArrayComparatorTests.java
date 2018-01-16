@@ -113,8 +113,10 @@ public class CircularArrayComparatorTests extends TestsUtility {
     
     public static int test_equals_doesnt_modify() {
         CircularArrayFIFOQueue<String> l1 = init();
+        CircularArrayFIFOQueue<String> l2 = init();
         l1.add("a");
-        l1.equals(init());
-        return l1.size() == 1? 1 : 0;
+        l2.add("a");
+        l1.equals(l2);
+        return l1.size() == 1 ? 1 : 0;
     }
 }
