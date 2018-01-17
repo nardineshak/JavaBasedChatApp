@@ -30,11 +30,6 @@ import org.alicebot.ab.MagicBooleans;
 import org.alicebot.ab.MagicStrings;
 import org.alicebot.ab.PCAIMLProcessorExtension;
 
-import com.google.code.chatterbotapi.ChatterBot;
-import com.google.code.chatterbotapi.ChatterBotFactory;
-import com.google.code.chatterbotapi.ChatterBotSession;
-import com.google.code.chatterbotapi.ChatterBotType;
-
 import cse332.misc.WordReader;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -53,7 +48,6 @@ public class ChatWindow {
     private final StringBuilder content;
     public String theirUsername;
     public Chat esession;
-    public ChatterBotSession csession;
     private final WordSuggestor[] markov;
     private final UMessageServerConnection connection;
     private final SpellingCorrector checker;
@@ -85,15 +79,6 @@ public class ChatWindow {
             Bot bot = new Bot("alice2", MagicStrings.root_path, "chat"); //
 
             this.esession = new Chat(bot);
-        }
-        else if (this.theirUsername.equals("cleverbot")) {
-            ChatterBotFactory factory = new ChatterBotFactory();
-            ChatterBot bot1;
-            try {
-                bot1 = factory.create(ChatterBotType.CLEVERBOT);
-                this.csession = bot1.createSession();
-            } catch (Exception e) {
-            }
         }
     }
 
@@ -387,13 +372,6 @@ public class ChatWindow {
         if (this.theirUsername.equals("eliza")) {
             receiveMessage(this.esession.multisentenceRespond(msg));
             return;
-        }
-        else if (this.theirUsername.equals("cleverbot")) {
-            try {
-                receiveMessage(this.csession.think(msg));
-                return;
-            } catch (Exception e) {
-            }
         }
         else {
             try {
