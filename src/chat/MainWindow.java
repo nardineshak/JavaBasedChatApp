@@ -74,7 +74,6 @@ public class MainWindow {
         });
 
         this.usernames = new ArrayList<String>();
-        this.usernames.add("cleverbot");
         this.usernames.add("eliza");
         this.model = new UsersModel(this.usernames);
         list.setModel(this.model);
