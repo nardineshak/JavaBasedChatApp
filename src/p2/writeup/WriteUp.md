@@ -28,8 +28,8 @@ Throughout p1 and p2, you have written (or used) several distinct implementation
  time, and you should not leave it to the last minute.  For each experiment, we expect you to:
  - Explain how you constructed the inputs to make your conclusions
  - Explain why your data supports your conclusions
- - Explain your methodology (e.g., if we wanted to re-run your experiment, we would be able to)
- - Include the inputs themselves in the experiments folder
+ - Explain your methodology (If we wanted to re-run your experiment, we would be able to.)
+ - Tell us what inputs you used.  If generated in the code, tell us where and how. If from a file, please describe the files and include them in the experiments folder.
  - Include your data either directly in the write-up or in the experiments folder
  - You should include graphs of the outputs for at least a few of the questions.
    You can add a link to an image following the instructions found here:
