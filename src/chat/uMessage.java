@@ -77,6 +77,7 @@ public class uMessage {
                             4, uMessage.NEW_OUTER, uMessage.NEW_INNER);
                     this.window.update();
                 } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
     }
