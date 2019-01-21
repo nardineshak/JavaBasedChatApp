@@ -14,8 +14,8 @@ import cse332.interfaces.misc.Dictionary;
  *    restrict the size of the input domain (i.e., it must accept 
  *    any key) or the number of inputs (i.e., it must grow as necessary).
  * 3. Your HashTable should rehash as appropriate (use load factor as
- *    shown in class).
- * 5. HashTable should be able to grow at least up to 200,000 elements. 
+ *    shown in class!). 
+ * 5. HashTable should be able to grow more than 200,000 elements.
  * 6. We suggest you hard code some prime numbers. You can use this
  *    list: http://primes.utm.edu/lists/small/100000.txt 
  *    NOTE: Do NOT copy the whole list!
