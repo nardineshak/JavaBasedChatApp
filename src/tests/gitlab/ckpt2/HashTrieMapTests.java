@@ -1,4 +1,4 @@
-package tests.gitlab.duedate;
+package tests.gitlab.ckpt2;
 
 import cse332.types.AlphabeticString;
 import datastructures.dictionaries.HashTrieMap;
