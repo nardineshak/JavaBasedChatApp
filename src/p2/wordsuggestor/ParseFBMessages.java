@@ -28,9 +28,11 @@ public final class ParseFBMessages {
     // (e.g. "/Users/Me/Downloads/MyArchiveName" or "C:\Users\Me\Downloads\MyArchiveName")
     // You may be able to use a relative path like "./MyArchiveName", but results can
     // vary from machine to machine.
+    //
+    // DO NOT PUSH YOUR ME.TXT FILE TO GITLAB. WE DO NOT WANT YOUR PRIVATE CONVERSATIONS!!!!
     public static void main(String[] args) throws IOException {
         String name = "<Your FB Name>"; // e.g. "Ruth Anderson"
-        String archive = "<Your FB Archive>"; // e.g. "/Users/rea/workspace/332/messages"
+        String archive = "<Your FB Archive>"; // e.g. "/Users/rea/workspace/332/facebook-rea/messages"
 
         Stack<String> corpus = new Stack<>();
         File[] listOfFiles = (new File(archive + File.separator + "inbox")).listFiles();
