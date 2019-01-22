@@ -95,7 +95,7 @@ public class NGramToNextChoicesMapTests extends TestsUtility {
             if (items.length != answer.length) return 0;
             String[] itemsWithoutCounts = new String[items.length];
             for (int j = 0; j < answer.length; j++) {
-                if (items[j].value != 1) return 0;
+                if (!items[j].value.equals(1)) return 0;
                 itemsWithoutCounts[j] = items[j].key;
             }
             Arrays.sort(itemsWithoutCounts);
@@ -200,7 +200,7 @@ public class NGramToNextChoicesMapTests extends TestsUtility {
                     return 0;
                 }
                 // checks if correct count for given word after
-                if (expected[j].value != results[j].value) {
+                if (!expected[j].value.equals(results[j].value)) {
                     return 0;
                 }
             }
