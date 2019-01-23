@@ -95,7 +95,7 @@ public class NGramToNextChoicesMapTests extends TestsUtility {
             if (items.length != answer.length) return 0;
             String[] itemsWithoutCounts = new String[items.length];
             for (int j = 0; j < answer.length; j++) {
-                if (items[j].value != 1) return 0;
+                if (!items[j].value.equals(1)) return 0;
                 itemsWithoutCounts[j] = items[j].key;
             }
             Arrays.sort(itemsWithoutCounts);
@@ -127,10 +127,10 @@ public class NGramToNextChoicesMapTests extends TestsUtility {
         return 1;
     }
     
-    // TODO: Not finished yet
     @SuppressWarnings("unchecked")
     public static int testRepeatedWordsPerNGram() {
         NGramToNextChoicesMap map = init();
+        // Creates Ngrams to test for with N = 3
         NGram[] ngrams = new NGram[]{
                 new NGram(new String[]{"foo", "bar", "baz"}),
                 new NGram(new String[]{"fee", "fi", "fo"}),
@@ -138,7 +138,7 @@ public class NGramToNextChoicesMapTests extends TestsUtility {
                 new NGram(new String[]{"3", "2", "2"}),
                 new NGram(new String[]{"a", "s", "d"})
         };
-        
+        // Array of words seen after each Ngram with correlating index from above
         String[][] words = new String[][] {
             new String[]{"bop", "bip", "boop", "bop", "bop"},
             new String[]{"fum", "giants", "giants"},
@@ -148,6 +148,9 @@ public class NGramToNextChoicesMapTests extends TestsUtility {
         };
         
         // yes this is awful, but i can't think of a better way to do it atm
+        // Creates answers for getCountsAfter - Word seen after and count 
+        // corrlates with words and ngrams above
+        // Note that words after are in sorted order, not in order of array in words
         Map<NGram, Item<String, Integer>[]> answers = new TreeMap<>();
         answers.put(ngrams[0], (Item<String, Integer>[]) new Item[3]);
         answers.get(ngrams[0])[0] = new Item<String, Integer>("bip", 1);
@@ -167,12 +170,14 @@ public class NGramToNextChoicesMapTests extends TestsUtility {
         answers.get(ngrams[4])[1] = new Item<String, Integer>("for", 2);
         answers.get(ngrams[4])[2] = new Item<String, Integer>("while", 2);
         
+        // Adds nGrams and words after to student's NGramToNextChoicesMap
         for (int i = 0; i < ngrams.length; i++) {
             for (int j = 0; j < words[i].length; j++) {
                 map.seenWordAfterNGram(ngrams[i], words[i][j]);
             }
             
         }
+        // checks to see if getCountsAfter returns correctly
         for (int i = 0; i < ngrams.length; i++) {
             NGram ngram = ngrams[i];
             Item<String, Integer>[] results = map.getCountsAfter(ngram);
@@ -187,12 +192,15 @@ public class NGramToNextChoicesMapTests extends TestsUtility {
                 
             });
             Item<String, Integer>[] expected = answers.get(ngram);
+            // checks for correct number of unique words after
             if (results.length != expected.length) return 0;
             for (int j = 0; j < expected.length; j++) {
+                // checks if correct word after via sorted words
                 if (!expected[j].key.equals(results[j].key)) {
                     return 0;
                 }
-                if (expected[j].value != results[j].value) {
+                // checks if correct count for given word after
+                if (!expected[j].value.equals(results[j].value)) {
                     return 0;
                 }
             }

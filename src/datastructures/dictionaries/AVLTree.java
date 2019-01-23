@@ -6,7 +6,7 @@ import cse332.datastructures.trees.BinarySearchTree;
  * TODO: Replace this comment with your own as appropriate.
  *
  * AVLTree must be a subclass of BinarySearchTree<E> and must use
- * inheritance and callst o superclass methods to avoid unnecessary
+ * inheritance and calls to superclass methods to avoid unnecessary
  * duplication or copying of functionality.
  *
  * 1. Create a subclass of BSTNode, perhaps named AVLNode.
