@@ -139,6 +139,7 @@ public class AVLTreeTests extends TestsUtility {
 		// Check for accuracy
 		passed &= totalCount == (n * (n + 1)) / 2 * 5;
 		passed &= tree.size() == n;
+		passed &= tree.find("00851") != null;
 		passed &= tree.find("00851") == 4260;
 		
 		return passed ? 1 : 0;
