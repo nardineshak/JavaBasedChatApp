@@ -21,6 +21,9 @@ import cse332.interfaces.misc.Dictionary;
  * 6. We suggest you hard code some prime numbers. You can use this
  *    list: http://primes.utm.edu/lists/small/100000.txt 
  *    NOTE: Do NOT copy the whole list!
+ * 7. When implementing your iterator, you should NOT copy every item to another
+ *    dictionary/list and return that dictionary/list's iterator. 
+
  */
 public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
     private Supplier<Dictionary<K, V>> newChain;  
