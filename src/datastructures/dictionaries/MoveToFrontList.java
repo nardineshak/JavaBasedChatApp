@@ -16,7 +16,9 @@ import cse332.interfaces.misc.DeletelessDictionary;
  * 4. You need to implement an iterator. The iterator SHOULD NOT move
  *    elements to the front.  The iterator should return elements in
  *    the order they are stored in the list, starting with the first
- *    element in the list.
+ *    element in the list. When implementing your iterator, you should 
+ *    NOT copy every item to another dictionary/list and return that 
+ *    dictionary/list's iterator. 
  */
 public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
     @Override
