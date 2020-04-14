@@ -16,14 +16,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class NGramToNextChoicesMapTests {
-    private Supplier<Dictionary<NGram, Dictionary<AlphabeticString, Integer>>> newOuter =
-            () -> new BinarySearchTree();
-
-    private Supplier<Dictionary<AlphabeticString, Integer>> newInner =
-            () -> new BinarySearchTree();
-
     private NGramToNextChoicesMap init() {
-        return new NGramToNextChoicesMap(newOuter, newInner);
+        return new NGramToNextChoicesMap(BinarySearchTree::new, BinarySearchTree::new);
     }
 
     @Test(timeout = 3000)
@@ -172,13 +166,7 @@ public class NGramToNextChoicesMapTests {
             Arrays.sort(results, Comparator.comparing(r -> r.key));
             Item<String, Integer>[] expected = answers.get(ngram);
             // checks for correct number of unique words after
-            assertEquals(expected.length, results.length);
-            for (int j = 0; j < expected.length; j++) {
-                // checks if correct word after via sorted words
-                assertEquals(expected[j].key, results[j].key);
-                // checks if correct count for given word after
-                assertEquals(expected[j].value, results[j].value);
-            }
+            assertArrayEquals(expected, results);
         }
     }
 }

@@ -1,5 +1,7 @@
 package cse332.datastructures.containers;
 
+import java.util.Objects;
+
 /**
  * Simple class to hold a piece of data and its value.
  * 
@@ -39,5 +41,19 @@ public class Item<K, V> {
     @Override
     public String toString() {
         return this.key + "=" + this.value + "";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item<?, ?> item = (Item<?, ?>) o;
+        return Objects.equals(key, item.key) &&
+                Objects.equals(value, item.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key, value);
     }
 }
