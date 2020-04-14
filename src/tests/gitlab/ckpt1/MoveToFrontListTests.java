@@ -53,7 +53,7 @@ public class MoveToFrontListTests {
 		// Delete them all
 		int totalCount = 0;
 		for (Item<String, Integer> dc : list) {
-			assertTrue ((Integer.parseInt(dc.key) + 1) * 5 == dc.value);
+			assertEquals((Integer.parseInt(dc.key) + 1) * 5, dc.value.intValue());
 			totalCount += dc.value;
 		}
 
@@ -61,6 +61,6 @@ public class MoveToFrontListTests {
 		assertEquals(totalCount, (n * (n + 1)) / 2 * 5);
 		assertEquals(list.size(), n);
 		assertNotNull(list.find("00851"));
-		assertTrue(list.find("00851") == 4260);
+		assertEquals(list.find("00851").intValue(), 4260);
 	}
 }

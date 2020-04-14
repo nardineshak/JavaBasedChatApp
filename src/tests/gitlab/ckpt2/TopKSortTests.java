@@ -13,12 +13,7 @@ public class TopKSortTests {
 		int K = 4;
 		Integer[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 		Integer[] arr_sorted = {7, 8, 9, 10};
-		TopKSort.sort(arr, K, new Comparator<Integer>() {
-			@Override
-			public int compare(Integer e1, Integer e2) {
-				return e1.compareTo(e2);
-			}
-		});
+		TopKSort.sort(arr, K, Integer::compareTo);
 		for(int i = 0; i < K; i++) {
 			assertEquals(arr[i], arr_sorted[i]);
 		}
@@ -29,12 +24,7 @@ public class TopKSortTests {
 		int K = 4;
 		Integer[] arr = {3, 1, 4, 5, 9, 2, 6, 7, 8};
 		Integer[] arr_sorted = {6, 7, 8, 9};
-		TopKSort.sort(arr, K, new Comparator<Integer>() {
-			@Override
-			public int compare(Integer e1, Integer e2) {
-				return e1.compareTo(e2);
-			}
-		});
+		TopKSort.sort(arr, K, Integer::compareTo);
 		for(int i = 0; i < K; i++) {
 			assertEquals(arr[i], arr_sorted[i]);
 		}

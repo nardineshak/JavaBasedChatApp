@@ -13,9 +13,7 @@ import static org.junit.Assert.*;
 public class AVLTreeTests {
 
 	private AVLTree<String, Integer> init() {
-		AVLTree<String, Integer> tree = new AVLTree<>();
-
-		return tree;
+		return new AVLTree<>();
 	}
 
 	private <E extends Comparable<E>> void incCount(Dictionary<E, Integer> tree, E key) {
@@ -121,7 +119,7 @@ public class AVLTreeTests {
 		// Delete them all
 		int totalCount = 0;
 		for (Item<String, Integer> dc : tree) {
-			assertTrue((Integer.parseInt(dc.key) + 1) * 5 == dc.value);
+			assertEquals((Integer.parseInt(dc.key) + 1) * 5, dc.value.intValue());
 			totalCount += dc.value;
 		}
 
@@ -129,7 +127,7 @@ public class AVLTreeTests {
 		assertEquals(totalCount, (n * (n + 1)) / 2 * 5);
 		assertEquals(tree.size(), n);
 		assertNotNull(tree.find("00851"));
-		assertTrue(tree.find("00851") == 4260);
+		assertEquals(4260, (int) tree.find("00851"));
 	}
 
 	private void definalize(Field field) {
@@ -137,7 +135,7 @@ public class AVLTreeTests {
 			Field modifiersField = Field.class.getDeclaredField("modifiers");
 			modifiersField.setAccessible(true);
 			modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-		} catch (Exception e) {}
+		} catch (Exception ignored) {}
 	}
 
 	/**

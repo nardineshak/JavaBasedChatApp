@@ -11,7 +11,8 @@ import org.junit.runners.Suite;
         CircularArrayHashCodeTests.class,
         QuickSortTests.class,
         TopKSortTests.class,
-        HeapSortTests.class
+        HeapSortTests.class,
+        HashTrieMapTests.class
 })
 
 public class Ckpt2Tests {

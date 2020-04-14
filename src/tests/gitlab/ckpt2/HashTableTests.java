@@ -20,7 +20,7 @@ public class HashTableTests {
 
 	@Test(timeout = 3000)
 	public void testHugeHashTable() {
-		ChainingHashTable<String, Integer> list = new ChainingHashTable<>(() -> new MoveToFrontList<>());
+		ChainingHashTable<String, Integer> list = new ChainingHashTable<>(MoveToFrontList::new);
 
 		int n = 1000;
 
@@ -35,12 +35,12 @@ public class HashTableTests {
 		// Delete them all
 		int totalCount = 0;
 		for (Item<String, Integer> dc : list) {
-			assertTrue ((Integer.parseInt(dc.key) + 1) * 5 == dc.value);
+			assertEquals((Integer.parseInt(dc.key) + 1) * 5, (int) dc.value);
 			totalCount += dc.value;
 		}
 		assertEquals(totalCount, (n * (n + 1)) / 2 * 5);
 		assertEquals(list.size(), n);
-		assertNotNull(list.find("00851") );
-		assertTrue(list.find("00851") == 4260);
+		assertNotNull(list.find("00851"));
+		assertEquals(4260, (int) list.find("00851"));
 	}
 }

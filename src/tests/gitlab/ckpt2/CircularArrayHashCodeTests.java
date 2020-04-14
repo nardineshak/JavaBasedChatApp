@@ -19,7 +19,6 @@ public class CircularArrayHashCodeTests {
 			l2.add("a");
 		}
 		assertEquals(l1.hashCode(), l2.hashCode());
-		assertTrue(l1.hashCode() == l2.hashCode());
 	}
 
 	@Test(timeout = 3000)

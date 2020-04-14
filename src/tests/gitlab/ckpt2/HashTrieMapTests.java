@@ -48,28 +48,22 @@ public class HashTrieMapTests {
     @Test(timeout = 3000)
     public void testFindNonexistentDoesNotCrash() {
         addAll(STUDENT, "foo", "bar", "baz");
-        assertTrue(STUDENT.find(a("orangutan")) == null);
-        assertTrue(STUDENT.find(a("z")) == null);
-        assertTrue(STUDENT.find(a("ba")) == null);
-        assertTrue(STUDENT.find(a("bazz")) == null);
-        assertTrue(!STUDENT.findPrefix(a("boor")));
-        assertTrue(!STUDENT.findPrefix(a("z")) );
+        assertNull(STUDENT.find(a("orangutan")));
+        assertNull(STUDENT.find(a("z")));
+        assertNull(STUDENT.find(a("ba")));
+        assertNull(STUDENT.find(a("bazz")));
+        assertFalse(STUDENT.findPrefix(a("boor")));
+        assertFalse(STUDENT.findPrefix(a("z")) );
     }
 
-    @Test(timeout = 3000)
-    public void testFindingNullEntriesCausesError() {
-        try {
-            STUDENT.find(null);
-            assertTrue(false);
-        } catch (IllegalArgumentException ex) {
-            // Do nothing
-        }
-        try {
-            STUDENT.findPrefix(null);
-            assertTrue(false);
-        } catch (IllegalArgumentException ex) {
-            // Do nothing
-        }
+    @Test(timeout = 3000, expected = IllegalArgumentException.class)
+    public void testFindingNullKeyCausesError() {
+        STUDENT.find(null);
+    }
+
+    @Test(timeout = 3000, expected = IllegalArgumentException.class)
+    public void testFindingNullPrefixCausesError() {
+        STUDENT.findPrefix(null);
     }
 
     /**
@@ -78,48 +72,31 @@ public class HashTrieMapTests {
     @Test(timeout = 3000)
     public void testInsertReplacesOldValue() {
         AlphabeticString key = a("myKey");
-        assertTrue(STUDENT.insert(key, "foo") == null);
-        assertTrue(STUDENT.insert(key, "bar").equals("foo"));
-        assertTrue(STUDENT.insert(key, "baz").equals("bar"));
+        assertNull(STUDENT.insert(key, "foo"));
+        assertEquals("foo", STUDENT.insert(key, "bar"));
+        assertEquals("bar", STUDENT.insert(key, "baz"));
     }
 
-    @Test(timeout = 3000)
-    public void testInsertingNullEntriesCausesError() {
-        try {
-            STUDENT.insert(null, "foo");
-            assertTrue(false);
-        } catch (IllegalArgumentException ex) {
-            // Do nothing
-        }
-
-        try {
-            STUDENT.insert(a("foo"), null);
-            assertTrue(false);
-        } catch (IllegalArgumentException ex) {
-            // Do nothing
-        }
+    @Test(timeout = 3000, expected = IllegalArgumentException.class)
+    public void testInsertingNullKeyCausesError() {
+        STUDENT.insert(null, "foo");
     }
 
-    @Test(timeout = 3000)
+    @Test(timeout = 3000, expected = IllegalArgumentException.class)
+    public void testInsertingNullValueCausesError() {
+        STUDENT.insert(a("foo"), null);
+    }
+
+    @Test(timeout = 3000, expected=UnsupportedOperationException.class)
     public void testDeletingCausesError() {
         STUDENT.insert(a("foo"), "doo");
-        try {
-            STUDENT.delete(a("foo"));
-            assertTrue(false);
-        } catch (UnsupportedOperationException ex) {
-            // do nothing, should throw exception
-        }
+        STUDENT.delete(a("foo"));
     }
 
-    @Test(timeout = 3000)
+    @Test(timeout = 3000, expected=UnsupportedOperationException.class)
     public void testClearCausesError() {
         STUDENT.insert(a("foo"), "doo");
-        try {
-            STUDENT.clear();
-            assertTrue(false);
-        } catch (UnsupportedOperationException ex) {
-            // do nothing, should throw exception
-        }
+        STUDENT.clear();
     }
 
     @Test(timeout = 3000)
@@ -223,7 +200,7 @@ public class HashTrieMapTests {
                 for (char c : symbols) {
                     for (char d : symbols) {
                         Character[] word = new Character[]{a, b, c, d};
-                        assertTrue(STUDENT.find(new AlphabeticString(word)).equals("" + i));
+                        assertEquals("" + i, STUDENT.find(new AlphabeticString(word)));
                         i += 1;
                     }
                 }

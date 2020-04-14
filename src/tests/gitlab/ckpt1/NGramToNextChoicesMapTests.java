@@ -41,10 +41,10 @@ public class NGramToNextChoicesMapTests {
         }
         for (int i = 0; i < ngrams.length; i++) {
             Item<String, Integer>[] items = map.getCountsAfter(ngrams[i]);
-            assertTrue(items.length == 1);
+            assertEquals(1, items.length);
             Item<String, Integer> item = items[0];
-            assertTrue(item.key.equals(words[i]));
-            assertTrue(item.value.equals(1));
+            assertEquals(words[i], item.key);
+            assertEquals(1, item.value.intValue());
         }
     }
 
@@ -76,16 +76,14 @@ public class NGramToNextChoicesMapTests {
         for (int i = 0; i < ngrams.length; i++) {
             Item<String, Integer>[] items = map.getCountsAfter(ngrams[i]);
             String[] answer = words[i];
-            assertTrue(items.length == answer.length);
+            assertEquals(answer.length, items.length);
             String[] itemsWithoutCounts = new String[items.length];
             for (int j = 0; j < answer.length; j++) {
-                assertTrue(items[j].value.equals(1));
+                assertEquals(1, items[j].value.intValue());
                 itemsWithoutCounts[j] = items[j].key;
             }
             Arrays.sort(itemsWithoutCounts);
-            for (int j = 0; j < answer.length; j++) {
-                assertTrue(itemsWithoutCounts[j].equals(answer[j]));
-            }
+            assertArrayEquals(answer, itemsWithoutCounts);
         }
     }
 
@@ -104,7 +102,7 @@ public class NGramToNextChoicesMapTests {
         }
         Item<String, Integer>[] items = map.getCountsAfter(new NGram(new String[] { "yo" }));
         assertNotNull(items);
-        assertTrue(items.length == 0);
+        assertEquals(0, items.length);
     }
 
     @SuppressWarnings("unchecked")
@@ -133,53 +131,53 @@ public class NGramToNextChoicesMapTests {
         // corrlates with words and ngrams above
         // Note that words after are in sorted order, not in order of array in words
         Map<NGram, Item<String, Integer>[]> answers = new TreeMap<>();
-        answers.put(ngrams[0], (Item<String, Integer>[]) new Item[3]);
-        answers.get(ngrams[0])[0] = new Item<String, Integer>("bip", 1);
-        answers.get(ngrams[0])[1] = new Item<String, Integer>("boop", 1);
-        answers.get(ngrams[0])[2] = new Item<String, Integer>("bop", 3);
-        answers.put(ngrams[1], (Item<String, Integer>[]) new Item[2]);
-        answers.get(ngrams[1])[0] = new Item<String, Integer>("fum", 1);
-        answers.get(ngrams[1])[1] = new Item<String, Integer>("giants", 2);
-        answers.put(ngrams[2], (Item<String, Integer>[]) new Item[3]);
-        answers.get(ngrams[2])[0] = new Item<String, Integer>("ago", 2);
-        answers.get(ngrams[2])[1] = new Item<String, Integer>("seven", 1);
-        answers.get(ngrams[2])[2] = new Item<String, Integer>("years", 2);
-        answers.put(ngrams[3], (Item<String, Integer>[]) new Item[1]);
-        answers.get(ngrams[3])[0] = new Item<String, Integer>("throw", 5);
-        answers.put(ngrams[4], (Item<String, Integer>[]) new Item[3]);
-        answers.get(ngrams[4])[0] = new Item<String, Integer>("do", 2);
-        answers.get(ngrams[4])[1] = new Item<String, Integer>("for", 2);
-        answers.get(ngrams[4])[2] = new Item<String, Integer>("while", 2);
+        answers.put(ngrams[0], (Item<String, Integer>[]) new Item[]{
+                new Item<>("bip", 1),
+                new Item<>("boop", 1),
+                new Item<>("bop", 3)
+        });
+
+        answers.put(ngrams[1], (Item<String, Integer>[]) new Item[]{
+                new Item<>("fum", 1),
+                new Item<>("giants", 2)
+        });
+
+        answers.put(ngrams[2], (Item<String, Integer>[]) new Item[]{
+                new Item<>("ago", 2),
+                new Item<>("seven", 1),
+                new Item<>("years", 2)
+        });
+
+        answers.put(ngrams[3], (Item<String, Integer>[]) new Item[]{
+                new Item<>("throw", 5)
+        });
+
+        answers.put(ngrams[4], (Item<String, Integer>[]) new Item[]{
+                new Item<>("do", 2),
+                new Item<>("for", 2),
+                new Item<>("while", 2)
+        });
 
         // Adds nGrams and words after to student's NGramToNextChoicesMap
         for (int i = 0; i < ngrams.length; i++) {
             for (int j = 0; j < words[i].length; j++) {
                 map.seenWordAfterNGram(ngrams[i], words[i][j]);
             }
-
         }
+
         // checks to see if getCountsAfter returns correctly
         for (int i = 0; i < ngrams.length; i++) {
             NGram ngram = ngrams[i];
             Item<String, Integer>[] results = map.getCountsAfter(ngram);
-            Arrays.sort(results, new Comparator<Object>() {
-
-                @Override
-                public int compare(Object o1, Object o2) {
-                    Item<String, Integer> r1 = (Item<String, Integer>)o1;
-                    Item<String, Integer> r2 = (Item<String, Integer>)o2;
-                    return r1.key.compareTo(r2.key);
-                }
-
-            });
+            Arrays.sort(results, Comparator.comparing(r -> r.key));
             Item<String, Integer>[] expected = answers.get(ngram);
             // checks for correct number of unique words after
-            assertTrue(results.length == expected.length);
+            assertEquals(expected.length, results.length);
             for (int j = 0; j < expected.length; j++) {
                 // checks if correct word after via sorted words
-                assertTrue(expected[j].key.equals(results[j].key));
+                assertEquals(expected[j].key, results[j].key);
                 // checks if correct count for given word after
-                assertTrue(expected[j].value.equals(results[j].value));
+                assertEquals(expected[j].value, results[j].value);
             }
         }
     }
