@@ -1,20 +1,19 @@
 package tests.gitlab.ckpt2;
 
-import tests.GradingUtility;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-public class Ckpt2Tests extends GradingUtility {
-    public static void main(String[] args) {
-        new Ckpt2Tests();
-    }
+@RunWith(Suite.class)
 
-    protected Class<?>[] getTests() {
-        return new Class<?>[] {
-            AVLTreeTests.class,
-            HashTableTests.class,
-            CircularArrayHashCodeTests.class,
-            QuickSortTests.class,
-            TopKSortTests.class,
-            HeapSortTests.class
-        };
-    }
+@Suite.SuiteClasses({
+        AVLTreeTests.class,
+        HashTableTests.class,
+        CircularArrayHashCodeTests.class,
+        QuickSortTests.class,
+        TopKSortTests.class,
+        HeapSortTests.class
+})
+
+public class Ckpt2Tests {
+
 }

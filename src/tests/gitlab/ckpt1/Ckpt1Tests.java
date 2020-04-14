@@ -1,17 +1,16 @@
 package tests.gitlab.ckpt1;
 
-import tests.GradingUtility;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-public class Ckpt1Tests extends GradingUtility {
-    public static void main(String[] args) {
-        new Ckpt1Tests();
-    }
+@RunWith(Suite.class)
 
-    protected Class<?>[] getTests() {
-        return new Class<?>[] {
-            NGramToNextChoicesMapTests.class,
-            MoveToFrontListTests.class,
-            CircularArrayComparatorTests.class
-        };
-    }
+@Suite.SuiteClasses({
+        NGramToNextChoicesMapTests.class,
+        MoveToFrontListTests.class,
+        CircularArrayComparatorTests.class
+})
+
+public class Ckpt1Tests {
+
 }

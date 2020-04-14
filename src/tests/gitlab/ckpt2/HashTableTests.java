@@ -4,34 +4,26 @@ import cse332.datastructures.containers.Item;
 import cse332.interfaces.misc.Dictionary;
 import datastructures.dictionaries.ChainingHashTable;
 import datastructures.dictionaries.MoveToFrontList;
-import tests.TestsUtility;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class HashTableTests extends TestsUtility {
-	
-	public static void main(String[] args) {
-		new HashTableTests().run();
-	}
-	
-	@Override
-	protected void run() {
-        SHOW_TESTS = true;
 
-		test("testHugeHashTable");	
-		finish();
-	}
+public class HashTableTests {
 
-	private static void incCount(Dictionary<String, Integer> list, String key) {
+	private void incCount(Dictionary<String, Integer> list, String key) {
 		Integer find = list.find(key);
 		if (find == null)
 			list.insert(key, 1);
 		else
 			list.insert(key, 1 + find);
 	}
-	public static int testHugeHashTable() {
+
+	@Test(timeout = 3000)
+	public void testHugeHashTable() {
 		ChainingHashTable<String, Integer> list = new ChainingHashTable<>(() -> new MoveToFrontList<>());
-		
+
 		int n = 1000;
-		
+
 		// Add them
 		for (int i = 0; i < 5 * n; i++) {
 			int k = (i % n) * 37 % n;
@@ -41,18 +33,14 @@ public class HashTableTests extends TestsUtility {
 		}
 
 		// Delete them all
-		boolean passed = true;
 		int totalCount = 0;
 		for (Item<String, Integer> dc : list) {
-			passed &= (Integer.parseInt(dc.key) + 1) * 5 == dc.value;
-//			System.out.println(((Integer.parseInt(dc.data) + 1) * 5 == dc.count) + ": " + ((Integer.parseInt(dc.data) + 1) * 5) + "==" + dc.count);
+			assertTrue ((Integer.parseInt(dc.key) + 1) * 5 == dc.value);
 			totalCount += dc.value;
 		}
-
-		passed &= totalCount == (n * (n + 1)) / 2 * 5;
-		passed &= list.size() == n;
-		passed &= list.find("00851") == 4260;
-		
-		return passed ? 1 : 0;
+		assertEquals(totalCount, (n * (n + 1)) / 2 * 5);
+		assertEquals(list.size(), n);
+		assertNotNull(list.find("00851") );
+		assertTrue(list.find("00851") == 4260);
 	}
 }

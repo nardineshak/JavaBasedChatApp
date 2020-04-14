@@ -4,31 +4,21 @@ import cse332.datastructures.containers.Item;
 import cse332.datastructures.trees.BinarySearchTree.BSTNode;
 import cse332.interfaces.misc.Dictionary;
 import datastructures.dictionaries.AVLTree;
-import tests.TestsUtility;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
-public class AVLTreeTests extends TestsUtility {
-	
-	public static void main(String[] args) {
-		new AVLTreeTests().run();
-	}
-	
-	@Override
-	protected void run() {
-        SHOW_TESTS = true;
-        DEBUG = true;
-		test("testTreeWith5Items");
-		test("testHugeTree");
-		test("checkStructure");
-		finish();
-	}
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-	protected static AVLTree<String, Integer> init() {
+public class AVLTreeTests {
+
+	private AVLTree<String, Integer> init() {
 		AVLTree<String, Integer> tree = new AVLTree<>();
 
 		return tree;
 	}
-	
-	private static <E extends Comparable<E>> void incCount(Dictionary<E, Integer> tree, E key) {
+
+	private <E extends Comparable<E>> void incCount(Dictionary<E, Integer> tree, E key) {
 		Integer value = tree.find(key);
 		if (value == null) {
 			tree.insert(key, 1);
@@ -36,9 +26,10 @@ public class AVLTreeTests extends TestsUtility {
 			tree.insert(key, value + 1);
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
-	public static int checkStructure() {
+	@Test(timeout = 3000)
+	public void checkStructure() {
 		AVLTree<Integer, Integer> tree = new AVLTree<>();
 		incCount(tree, 10);
 		incCount(tree, 14);
@@ -70,7 +61,7 @@ public class AVLTreeTests extends TestsUtility {
 //		{10, 14, 31, 13, 12, 11, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
 
 		BSTNode root = (BSTNode) getField(tree, "root");
-		
+
 		String trueData = " [8 [4 [2 [1 [0..].] [3..]] [6 [5..] [7..]]] [12 [10 [9..] [11..]] [14 [13..] [31..]]]]";
 		String trueCounts = " [1 [1 [1 [1 [1..].] [1..]] [1 [1..] [1..]]] [1 [9 [1..] [1..]] [2 [2..] [1..]]]]";
 //		String trueData = " [10 [6 [2 [1 [0..].] [4 [3..] [5..]]] [8 [7..] [9..]]] [13 [12 [11..].] [14. [31..]]]]";
@@ -78,24 +69,25 @@ public class AVLTreeTests extends TestsUtility {
 
 //		System.err.println(nestd(root));
 //		System.err.println(trueData);
-		return nestd(root).equals(trueData) &&
-				nestc(root).equals(trueCounts) ? 1 : 0;
+		assertEquals(nestd(root), trueData);
+		assertEquals(nestc(root), trueCounts);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static String nestd(BSTNode root) {
+	public String nestd(BSTNode root) {
 		if(root == null)
 			return ".";
 		return " [" + root.key + nestd(root.children[0]) + nestd(root.children[1]) + "]";
 	}
 	@SuppressWarnings("rawtypes")
-	public static String nestc(BSTNode root) {
+	public String nestc(BSTNode root) {
 		if(root == null)
 			return ".";
 		return " [" + root.value + nestc(root.children[0]) + nestc(root.children[1]) + "]";
 	}
-	
-	public static int testTreeWith5Items() {
+
+	@Test(timeout = 3000)
+	public void testTreeWith5Items() {
 		AVLTree<String, Integer> tree = init();
 		String[] tests_struct = { "a", "b", "c", "d", "e" };
 		String[] tests = { "b", "d", "e", "c", "a" };
@@ -104,19 +96,17 @@ public class AVLTreeTests extends TestsUtility {
 			incCount(tree, str);
 		}
 
-		boolean passed = true;
 		int i = 0;
 		for (Item<String, Integer> item : tree) {
 			String str_heap = item.key;
 			String str = tests_struct[i] + "a";
-			passed &= str.equals(str_heap);
+			assertEquals(str, str_heap);
 			i++;
 		}
-
-		return passed ? 1 : 0;
 	}
 
-	public static int testHugeTree() {
+	@Test(timeout = 3000)
+	public void testHugeTree() {
 		AVLTree<String, Integer> tree = init();
 		int n = 1000;
 
@@ -129,20 +119,52 @@ public class AVLTreeTests extends TestsUtility {
 		}
 
 		// Delete them all
-		boolean passed = true;
 		int totalCount = 0;
 		for (Item<String, Integer> dc : tree) {
-			passed &= (Integer.parseInt(dc.key) + 1) * 5 == dc.value;
+			assertTrue((Integer.parseInt(dc.key) + 1) * 5 == dc.value);
 			totalCount += dc.value;
 		}
-		
+
 		// Check for accuracy
-		passed &= totalCount == (n * (n + 1)) / 2 * 5;
-		passed &= tree.size() == n;
-		passed &= tree.find("00851") != null;
-		passed &= tree.find("00851") == 4260;
-		
-		return passed ? 1 : 0;
+		assertEquals(totalCount, (n * (n + 1)) / 2 * 5);
+		assertEquals(tree.size(), n);
+		assertNotNull(tree.find("00851"));
+		assertTrue(tree.find("00851") == 4260);
+	}
+
+	private void definalize(Field field) {
+		try {
+			Field modifiersField = Field.class.getDeclaredField("modifiers");
+			modifiersField.setAccessible(true);
+			modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+		} catch (Exception e) {}
+	}
+
+	/**
+	 * Get a field from an object
+	 * @param o Object you want to get the field from
+	 * @param fieldName Name of the field
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private <T> T getField(Object o, String fieldName) {
+		try {
+			Field field = o.getClass().getSuperclass().getDeclaredField(fieldName);
+			field.setAccessible(true);
+			definalize(field);
+			Object f = field.get(o);
+			return (T) f;
+		} catch (Exception e) {
+			try {
+				Field field = o.getClass().getDeclaredField(fieldName);
+				field.setAccessible(true);
+				definalize(field);
+				Object f = field.get(o);
+				return (T) f;
+			} catch (Exception e2) {
+				return null;
+			}
+		}
 	}
 
 }
