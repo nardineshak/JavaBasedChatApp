@@ -305,29 +305,17 @@ public class HashTrieMapTests {
         try {
             Field field = o.getClass().getSuperclass().getDeclaredField(fieldName);
             field.setAccessible(true);
-            definalize(field);
             Object f = field.get(o);
             return (T) f;
         } catch (Exception var6) {
             try {
                 Field field = o.getClass().getDeclaredField(fieldName);
                 field.setAccessible(true);
-                definalize(field);
                 Object f = field.get(o);
                 return (T) f;
             } catch (Exception var5) {
                 return null;
             }
         }
-    }
-
-    private void definalize(Field field) {
-        try {
-            Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(field, field.getModifiers() & -17);
-        } catch (Exception var2) {
-        }
-
     }
 }

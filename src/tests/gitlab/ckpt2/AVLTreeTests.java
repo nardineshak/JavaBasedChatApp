@@ -130,14 +130,6 @@ public class AVLTreeTests {
 		assertEquals(4260, (int) tree.find("00851"));
 	}
 
-	private void definalize(Field field) {
-		try {
-			Field modifiersField = Field.class.getDeclaredField("modifiers");
-			modifiersField.setAccessible(true);
-			modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-		} catch (Exception ignored) {}
-	}
-
 	/**
 	 * Get a field from an object
 	 * @param o Object you want to get the field from
@@ -149,14 +141,12 @@ public class AVLTreeTests {
 		try {
 			Field field = o.getClass().getSuperclass().getDeclaredField(fieldName);
 			field.setAccessible(true);
-			definalize(field);
 			Object f = field.get(o);
 			return (T) f;
 		} catch (Exception e) {
 			try {
 				Field field = o.getClass().getDeclaredField(fieldName);
 				field.setAccessible(true);
-				definalize(field);
 				Object f = field.get(o);
 				return (T) f;
 			} catch (Exception e2) {
