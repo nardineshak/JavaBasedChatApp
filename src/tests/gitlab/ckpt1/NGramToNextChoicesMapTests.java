@@ -1,19 +1,19 @@
 package tests.gitlab.ckpt1;
 
+import cse332.datastructures.containers.Item;
+import cse332.datastructures.trees.BinarySearchTree;
+import cse332.types.NGram;
+import org.junit.Test;
+import p2.wordsuggestor.NGramToNextChoicesMap;
+
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.TreeMap;
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.TreeMap;
 
-import cse332.datastructures.containers.Item;
-import cse332.interfaces.misc.Dictionary;
-import cse332.types.AlphabeticString;
-import cse332.types.NGram;
-import cse332.datastructures.trees.BinarySearchTree;
-import p2.wordsuggestor.NGramToNextChoicesMap;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class NGramToNextChoicesMapTests {
     private NGramToNextChoicesMap init() {

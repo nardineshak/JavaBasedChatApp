@@ -13,7 +13,7 @@ import datastructures.worklists.ArrayStack;
  * BinarySearchTree implements the ComparableDictionary interface using a binary
  * search tree. Notice that the key type must be Comparable.
  */
-public class BinarySearchTree<K extends Comparable<K>, V>
+public class BinarySearchTree<K extends Comparable<? super K>, V>
         extends ComparableDictionary<K, V> {
     // The root of the BST. Root is null if and only if the tree is empty.
     protected BSTNode root;

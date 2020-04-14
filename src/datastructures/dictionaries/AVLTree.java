@@ -28,6 +28,6 @@ import cse332.datastructures.trees.BinarySearchTree;
  * 6. Do NOT override the toString method. It is used for grading.
  */
 
-public class AVLTree<K extends Comparable<K>, V> extends BinarySearchTree<K, V>  {
+public class AVLTree<K extends Comparable<? super K>, V> extends BinarySearchTree<K, V>  {
     // TODO: Implement me!
 }

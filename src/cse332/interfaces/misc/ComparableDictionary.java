@@ -10,6 +10,6 @@ package cse332.interfaces.misc;
  *
  * @author Adam Blank
  */
-public abstract class ComparableDictionary<K extends Comparable<K>, V>
+public abstract class ComparableDictionary<K extends Comparable<? super K>, V>
         extends DeletelessDictionary<K, V> {
 }
