@@ -1,6 +1,7 @@
 package p2.wordsuggestor;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.function.Supplier;
 
 import cse332.datastructures.containers.Item;
@@ -26,7 +27,18 @@ public class NGramToNextChoicesMap {
      * Increments the count of word after the particular NGram ngram.
      */
     public void seenWordAfterNGram(NGram ngram, String word) {
-        throw new NotYetImplementedException();
+        Dictionary<AlphabeticString, Integer> counter = map.find((NGram) ngram);
+        if (counter == null) {
+            counter = newInner.get();
+            map.insert((NGram) ngram, counter);
+        }
+
+        Integer prev = counter.find(new AlphabeticString(word));
+        if (prev == null) {
+            prev = 0;
+        }
+        counter.insert(new AlphabeticString(word), prev + 1);
+
     }
 
     /**
@@ -39,7 +51,23 @@ public class NGramToNextChoicesMap {
      * @return An array of all the Items for the requested ngram.
      */
     public Item<String, Integer>[] getCountsAfter(NGram ngram) {
-        throw new NotYetImplementedException();
+        if (ngram == null) {
+            return (Item<String, Integer>[]) new Item[0];
+        }
+        Dictionary<AlphabeticString, Integer> counter = map.find((NGram) ngram);
+        Item<String, Integer>[] result = (Item<String, Integer>[]) new Item[counter != null
+                ? counter.size() : 0];
+        if (counter != null) {
+            Iterator<Item<AlphabeticString, Integer>> it = counter.iterator();
+
+            for (int i = 0; i < result.length; i++) {
+                Item<AlphabeticString, Integer> item = it.next();
+                result[i] = new Item<String, Integer>(item.key.toString(),
+                        item.value);
+            }
+        }
+        return result;
+
     }
 
     public String[] getWordsAfter(NGram ngram, int k) {

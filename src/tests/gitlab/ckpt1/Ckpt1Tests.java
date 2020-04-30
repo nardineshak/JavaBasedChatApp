@@ -1,12 +1,13 @@
 package tests.gitlab.ckpt1;
 
+import datastructures.worklists.MinFourHeap;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-        NGramToNextChoicesMapTests.class,
+        MinFourHeap.class,
         MoveToFrontListTests.class,
         CircularArrayComparatorTests.class
 })
