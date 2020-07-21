@@ -116,7 +116,7 @@ public class AVLTreeTests {
 				incCount(tree, str);
 		}
 
-		// Delete them all
+		// Calculate count of all values in tree
 		int totalCount = 0;
 		for (Item<String, Integer> dc : tree) {
 			assertEquals((Integer.parseInt(dc.key) + 1) * 5, dc.value.intValue());
@@ -124,8 +124,8 @@ public class AVLTreeTests {
 		}
 
 		// Check for accuracy
-		assertEquals(totalCount, (n * (n + 1)) / 2 * 5);
-		assertEquals(tree.size(), n);
+		assertEquals((n * (n + 1)) / 2 * 5, totalCount);
+		assertEquals(n, tree.size());
 		assertNotNull(tree.find("00851"));
 		assertEquals(4260, (int) tree.find("00851"));
 	}
