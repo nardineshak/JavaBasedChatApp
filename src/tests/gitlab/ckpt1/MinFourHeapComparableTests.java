@@ -1,10 +1,9 @@
 package tests.gitlab.ckpt1;
 
 import cse332.interfaces.worklists.PriorityWorkList;
-import datastructures.worklists.MinFourHeap;
+import datastructures.worklists.MinFourHeapComparable;
 import org.junit.Before;
 import org.junit.Test;
-import tests.gitlab.ckpt1.WorklistGradingTests;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -14,20 +13,20 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
-public class MinFourHeapTests extends WorklistGradingTests {
+public class MinFourHeapComparableTests extends WorklistGradingTests {
     private static Random RAND;
 
     @Before
     public void init() {
-        STUDENT_STR = new MinFourHeap<>();
-        STUDENT_DOUBLE = new MinFourHeap<>();
-        STUDENT_INT = new MinFourHeap<>();
+        STUDENT_STR = new MinFourHeapComparable<>();
+        STUDENT_DOUBLE = new MinFourHeapComparable<>();
+        STUDENT_INT = new MinFourHeapComparable<>();
         RAND = new Random(42);
     }
 
     @Test(timeout = 3000)
     public void testHeapWith5Items() {
-        PriorityWorkList<String> heap = new MinFourHeap<>();
+        PriorityWorkList<String> heap = new MinFourHeapComparable<>();
         String[] tests = { "a", "b", "c", "d", "e" };
         for (int i = 0; i < 5; i++) {
             String str = tests[i] + "a";
@@ -43,9 +42,9 @@ public class MinFourHeapTests extends WorklistGradingTests {
 
     @Test(timeout = 3000)
     public void testOrderingDoesNotMatter() {
-        PriorityWorkList<String> ordered = new MinFourHeap<>();
-        PriorityWorkList<String> reversed = new MinFourHeap<>();
-        PriorityWorkList<String> random = new MinFourHeap<>();
+        PriorityWorkList<String> ordered = new MinFourHeapComparable<>();
+        PriorityWorkList<String> reversed = new MinFourHeapComparable<>();
+        PriorityWorkList<String> random = new MinFourHeapComparable<>();
 
         addAll(ordered, new String[]{"a", "b", "c", "d", "e"});
         addAll(reversed, new String[]{"e", "d", "c", "b", "a"});
@@ -78,7 +77,7 @@ public class MinFourHeapTests extends WorklistGradingTests {
 
     @Test(timeout = 3000)
     public void testHugeHeap() {
-        PriorityWorkList<String> heap = new MinFourHeap<>();
+        PriorityWorkList<String> heap = new MinFourHeapComparable<>();
         int n = 10000;
 
         // Add them
@@ -95,7 +94,7 @@ public class MinFourHeapTests extends WorklistGradingTests {
 
     @Test(timeout = 3000)
     public void testWithCustomComparable() {
-        PriorityWorkList<Coordinate> student = new MinFourHeap<>();
+        PriorityWorkList<Coordinate> student = new MinFourHeapComparable<>();
         Queue<Coordinate> reference = new PriorityQueue<>();
 
         for (int i = 0; i < 10000; i++) {
@@ -132,7 +131,7 @@ public class MinFourHeapTests extends WorklistGradingTests {
 
     @Test(timeout = 3000)
     public void checkStructure() {
-        PriorityWorkList<Integer> heap = new MinFourHeap<>();
+        PriorityWorkList<Integer> heap = new MinFourHeapComparable<>();
         addAll(heap, new Integer[] {10, 10, 15, 1, 17, 16, 100, 101, 102, 103, 105, 106, 107, 108});
 
         Object[] heapData = getField(heap, "data");

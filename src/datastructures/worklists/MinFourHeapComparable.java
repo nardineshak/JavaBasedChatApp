@@ -3,17 +3,15 @@ package datastructures.worklists;
 import cse332.exceptions.NotYetImplementedException;
 import cse332.interfaces.worklists.PriorityWorkList;
 
-import java.util.Comparator;
-
 /**
  * See cse332/interfaces/worklists/PriorityWorkList.java
  * for method specifications.
  */
-public class MinFourHeap<E> extends PriorityWorkList<E> {
+public class MinFourHeapComparable<E extends Comparable<E>> extends PriorityWorkList<E> {
     /* Do not change the name of this field; the tests rely on it to work correctly. */
     private E[] data;
-    
-    public MinFourHeap(Comparator<E> c) {
+
+    public MinFourHeapComparable() {
         throw new NotYetImplementedException();
     }
 

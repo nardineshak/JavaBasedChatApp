@@ -12,7 +12,8 @@ import org.junit.runners.Suite;
         QuickSortTests.class,
         TopKSortTests.class,
         HeapSortTests.class,
-        HashTrieMapTests.class
+        HashTrieMapTests.class,
+        MinFourHeapTests.class
 })
 
 public class Ckpt2Tests {
