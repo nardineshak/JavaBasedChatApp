@@ -67,8 +67,8 @@ public class AVLTreeTests {
 
 //		System.err.println(nestd(root));
 //		System.err.println(trueData);
-		assertEquals(nestd(root), trueData);
-		assertEquals(nestc(root), trueCounts);
+		assertEquals(trueData, nestd(root));
+		assertEquals(trueCounts, nestc(root));
 	}
 
 	@SuppressWarnings("rawtypes")
