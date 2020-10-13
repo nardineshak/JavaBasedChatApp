@@ -8,7 +8,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-        MinFourHeapComparable.class,
         MoveToFrontListTests.class,
         CircularArrayComparatorTests.class,
         MinFourHeapComparableTests.class
