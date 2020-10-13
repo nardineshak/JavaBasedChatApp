@@ -10,7 +10,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         MinFourHeapComparable.class,
         MoveToFrontListTests.class,
-        CircularArrayComparatorTests.class
+        CircularArrayComparatorTests.class,
+        MinFourHeapComparableTests.class
 })
 
 public class Ckpt1Tests {

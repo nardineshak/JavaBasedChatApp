@@ -27,10 +27,10 @@ public class NGramToNextChoicesMap {
      * Increments the count of word after the particular NGram ngram.
      */
     public void seenWordAfterNGram(NGram ngram, String word) {
-        Dictionary<AlphabeticString, Integer> counter = map.find((NGram) ngram);
+        Dictionary<AlphabeticString, Integer> counter = map.find(ngram);
         if (counter == null) {
             counter = newInner.get();
-            map.insert((NGram) ngram, counter);
+            map.insert(ngram, counter);
         }
 
         Integer prev = counter.find(new AlphabeticString(word));
@@ -54,7 +54,7 @@ public class NGramToNextChoicesMap {
         if (ngram == null) {
             return (Item<String, Integer>[]) new Item[0];
         }
-        Dictionary<AlphabeticString, Integer> counter = map.find((NGram) ngram);
+        Dictionary<AlphabeticString, Integer> counter = map.find(ngram);
         Item<String, Integer>[] result = (Item<String, Integer>[]) new Item[counter != null
                 ? counter.size() : 0];
         if (counter != null) {
