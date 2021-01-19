@@ -38,7 +38,7 @@ public final class ParseFBMessages {
         File[] listOfFiles = (new File(archive + File.separator + "inbox")).listFiles();
 
         for (int i = 0; i < listOfFiles.length; i++) {
-            File conversation = new File(listOfFiles[i], "message.json");
+            File conversation = new File(listOfFiles[i], "message_1.json");
             if (conversation.isFile()) {
                 try {
                     JSONObject obj = (JSONObject) new JSONParser().parse(new FileReader(conversation));
@@ -46,7 +46,8 @@ public final class ParseFBMessages {
                     for (Object m: messages) {
                         JSONObject msg = (JSONObject) m;
                         String sender = (String) msg.get("sender_name");
-                        if(sender != null && sender.equals(name)) {
+                        String type = (String) msg.get("type");
+                        if (sender != null && sender.equals(name) && (type == null || type.equals("Generic"))) {
                             corpus.push((String) msg.get("content"));
                         }
                     }
