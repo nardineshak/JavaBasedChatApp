@@ -69,7 +69,14 @@ public class MinFourHeapComparable<E extends Comparable<E>> extends PriorityWork
 
     //julian
     @Override
-    public E next() { throw new NotYetImplementedException();
+    public E next() {
+        if (!this.hasWork()) {
+            throw new NoSuchElementException();
+        } else {
+            E removedWork = data[size - 1];
+            size--;
+            return removedWork;
+        }
     }
 
 
