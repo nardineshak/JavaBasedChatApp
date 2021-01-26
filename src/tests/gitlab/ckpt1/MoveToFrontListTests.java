@@ -37,7 +37,7 @@ public class MoveToFrontListTests {
 		assertEquals(mtf_correct, mtf_test);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 10000)
 	public void testHugeMTFList() {
 		MoveToFrontList<String, Integer> list = new MoveToFrontList<>();
 
