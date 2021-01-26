@@ -69,7 +69,8 @@ public class MinFourHeapComparable<E extends Comparable<E>> extends PriorityWork
 
     //julian
     @Override
-    public E next() { throw new NotYetImplementedException();
+    public E next() {
+        throw new NotYetImplementedException();
     }
 
 
