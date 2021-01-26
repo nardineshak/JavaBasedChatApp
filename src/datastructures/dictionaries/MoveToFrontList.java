@@ -24,7 +24,6 @@ import datastructures.worklists.ListFIFOQueue;
  */
 public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
 
-    private int size = 0;
     private Node<K, V> front;
 
     @Override
@@ -36,13 +35,13 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
                 Node<K, V> newNode = new Node<>(key, value);
                 newNode.next = front;
                 front = newNode;
+                size++;
             }else{
                 V oldVal = front.data;
                 front.data = value;
                 return oldVal;
             }
         }
-        size++;
         return value;
     }
 
