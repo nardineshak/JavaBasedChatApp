@@ -18,7 +18,7 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
 
     public CircularArrayFIFOQueue(int capacity) {
         super(capacity);
-        circularArray = (E[])new Object[capacity];
+        circularArray = (E[])new Comparable[capacity];
         head = 0;
         tail = 0;
         size = 0;
@@ -97,7 +97,37 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
     @Override
     public int compareTo(FixedSizeFIFOWorkList<E> other) {
         // You will implement this method in project 2. Leave this method unchanged for project 1.
-        throw new NotYetImplementedException();
+        int val = 0;
+        if(other instanceof FixedSizeFIFOWorkList){
+            int shortLength;
+            int longLength;
+            if(other.size() < this.size){
+                shortLength = other.size();
+                longLength = this.size();
+            }else{
+                shortLength = this.size();
+                longLength = other.size();
+            }
+            for(int i = 0; i < shortLength; i++){
+                if(other.peek(i).compareTo(this.peek(i)) < 0){
+                    val = 1;
+                    break;
+                }
+                if(other.peek(i).compareTo(this.peek(i)) > 0){
+                    val = -1;
+                    break;
+                }
+                if(other.peek(i).compareTo(this.peek(i)) == 0 && (shortLength - 1) == i && (other.size() > this.size)){
+                    val = -1;
+                    break;
+                }
+                if(other.peek(i).compareTo(this.peek(i)) == 0 && (shortLength - 1) == i && (other.size() < this.size)){
+                    val = 1;
+                    break;
+                }
+            }
+        }
+        return val;
     }
 
     @Override
@@ -112,11 +142,15 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
         }
         else {
             // Uncomment the line below for p2 when you implement equals
-            // FixedSizeFIFOWorkList<E> other = (FixedSizeFIFOWorkList<E>) obj;
-
-            // Your code goes here
-
-            throw new NotYetImplementedException();
+            FixedSizeFIFOWorkList<E> other = (FixedSizeFIFOWorkList<E>) obj;
+            boolean equalOrNot = true;
+            for (int i = 0; i < other.size(); i++) {
+                if(!(this.peek(i).equals(other.peek(i)))) {
+                    equalOrNot = false;
+                    break;
+                }
+            }
+            return equalOrNot;
         }
     }
 
