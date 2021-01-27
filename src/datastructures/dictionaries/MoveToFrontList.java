@@ -2,10 +2,15 @@ package datastructures.dictionaries;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import cse332.datastructures.containers.Item;
+import cse332.datastructures.trees.BinarySearchTree;
 import cse332.exceptions.NotYetImplementedException;
 import cse332.interfaces.misc.DeletelessDictionary;
+import cse332.interfaces.misc.SimpleIterator;
+import cse332.interfaces.worklists.WorkList;
+import datastructures.worklists.ArrayStack;
 import datastructures.worklists.ListFIFOQueue;
 
 /**
@@ -72,10 +77,34 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
 
     @Override
     public Iterator<Item<K, V>> iterator() {
-        throw new NotYetImplementedException();
+        return new MTFIterator();
     }
 
-    private static class Node<K, V>{
+    private class MTFIterator extends SimpleIterator<Item<K, V>> {
+        private MoveToFrontList.Node<K, V> current;
+
+        public MTFIterator() {
+            current = front;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return this.current != null;
+        }
+
+        @Override
+        public Item<K, V> next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            } else {
+                Item<K, V> temp = current;
+                current = current.next;
+                return temp;
+            }
+        }
+    }
+
+    private static class Node<K, V> extends Item<K, V>{
 
         //Node data fields
         public K key;
@@ -83,13 +112,16 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
         public MoveToFrontList.Node<K, V> next;
 
         //Default Node constructor
-        public Node(){
-        }
+//        public Node(){
+//        }
 
         //Parameterized Node constructor
         public Node(K key, V data){
-            this.key = key;
-            this.data = data;
+            super(key, data);
+        }
+
+        public V getData() {
+            return next.data;
         }
 
     }
