@@ -33,17 +33,18 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
 
     @Override
     public V insert(K key, V value) {
-        if(this.size == 0){
+        if(this.size() == 0){
             front = new Node<>(key, value);
+            this.size++;
         }else{
             if(this.find(key) == null){
                 Node<K, V> newNode = new Node<>(key, value);
                 newNode.next = front;
                 front = newNode;
-                size++;
+                this.size++;
             }else{
-                V oldVal = front.data;
-                front.data = value;
+                V oldVal = front.value;
+                front.value = value;
                 return oldVal;
             }
         }
@@ -52,8 +53,11 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
 
     @Override
     public V find(K key) {
-        if(size == 0){
+        if(this.size() == 0){
             return null;
+        }
+        if(front.key.equals(key)){
+            return front.value;
         }
         Node<K, V> currentNode = front;
         Node<K,V> prevNode = null;
@@ -66,7 +70,7 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
                 }
                 currentNode.next = front;
                 front = currentNode;
-                foundVal = front.data;
+                foundVal = front.value;
                 found = true;
             }
             prevNode = currentNode;
@@ -107,13 +111,7 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
     private static class Node<K, V> extends Item<K, V>{
 
         //Node data fields
-        public K key;
-        public V data;
         public MoveToFrontList.Node<K, V> next;
-
-        //Default Node constructor
-//        public Node(){
-//        }
 
         //Parameterized Node constructor
         public Node(K key, V data){
@@ -121,7 +119,7 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
         }
 
         public V getData() {
-            return next.data;
+            return value;
         }
 
     }
