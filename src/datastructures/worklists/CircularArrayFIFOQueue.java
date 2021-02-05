@@ -133,7 +133,6 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
     @Override
     @SuppressWarnings("unchecked")
     public boolean equals(Object obj) {
-        // You will finish implementing this method in project 2. Leave this method unchanged for project 1.
         if (this == obj) {
             return true;
         }
@@ -141,7 +140,6 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
             return false;
         }
         else {
-            // Uncomment the line below for p2 when you implement equals
             FixedSizeFIFOWorkList<E> other = (FixedSizeFIFOWorkList<E>) obj;
             for (int i = 0; i < other.size(); i++) {
                 if (!(this.peek(i).equals(other.peek(i)))) {

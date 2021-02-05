@@ -1,12 +1,15 @@
 package datastructures.dictionaries;
 
+import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
 import cse332.datastructures.containers.Item;
 import cse332.exceptions.NotYetImplementedException;
 import cse332.interfaces.misc.DeletelessDictionary;
 import cse332.interfaces.misc.Dictionary;
+import cse332.interfaces.misc.SimpleIterator;
 
 /**
  * TODO: Replace this comment with your own as appropriate.
@@ -26,24 +29,114 @@ import cse332.interfaces.misc.Dictionary;
 
  */
 public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
-    private Supplier<Dictionary<K, V>> newChain;  
+    private Supplier<Dictionary<K, V>> newChain;
+    private Dictionary<K,V>[] hashTable;
+    private int capacity;
+    private final double LAMDA = 0.9;
+    private final int PRIME_NUMS[] = {11,23,47,97,193,389,787,1559,3119,6247,12473,24943,49891,99787,199967};
+    private int primeIndex = 0;
 
     public ChainingHashTable(Supplier<Dictionary<K, V>> newChain) {
         this.newChain = newChain;
+        capacity = PRIME_NUMS[primeIndex];
+        hashTable = (Dictionary<K, V>[]) new Dictionary[capacity];
+        primeIndex++;
     }
 
     @Override
     public V insert(K key, V value) {
-        throw new NotYetImplementedException();
+        if(key == null || value == null){
+            throw new IllegalArgumentException();
+        }
+        //check lamda/grow array
+        //if less than the size 200,000 use the prime number method
+        //if greater than 200,000 just double
+        double currentLamda = (1.0) * size/capacity;
+        if(currentLamda >= LAMDA && primeIndex < PRIME_NUMS.length){
+            capacity = PRIME_NUMS[primeIndex];
+            hashTable = biggerCapacity(hashTable, capacity);
+            primeIndex++;
+        }
+        if(currentLamda >= LAMDA && primeIndex >= PRIME_NUMS.length){
+            capacity *= 2;
+            hashTable = biggerCapacity(hashTable, capacity);
+        }
+        //check whether key already exists, if it does just update value
+        //if it doesn't add the new value
+        int index = Math.abs(key.hashCode());
+        index %= capacity;
+        if(hashTable[index] == null){
+            hashTable[index] = newChain.get();
+            hashTable[index].insert(key,value);
+            size++;
+            return value;
+        }else{
+            if(hashTable[index].find(key) != null){
+                V oldValue = find(key);
+                hashTable[index].insert(key,value);
+                return oldValue;
+            }else{
+                hashTable[index].insert(key,value);
+                size++;
+            }
+        }
+        return value;
+    }
+
+    public Dictionary<K,V>[] biggerCapacity(Dictionary<K,V>[] orgHT, int desiredSize){
+        Dictionary<K,V>[] temp = (Dictionary<K, V>[]) new Dictionary[desiredSize];
+        for(int i = 0; i < orgHT.length; i++){
+            temp[i] = orgHT[i];
+        }
+        return temp;
     }
 
     @Override
     public V find(K key) {
-        throw new NotYetImplementedException();
+        if(key == null){
+            throw new IllegalArgumentException();
+        }
+        int index = Math.abs(key.hashCode());
+        index %= capacity;
+        if(this.size == 0 || hashTable[index] == null){
+            return null;
+        }
+        return hashTable[index].find(key);
     }
 
     @Override
     public Iterator<Item<K, V>> iterator() {
-        throw new NotYetImplementedException();
+        return new HASHTABLEIterator();
+    }
+
+    private class HASHTABLEIterator extends SimpleIterator<Item<K,V>> {
+
+        private int currentIndex;
+        private Iterator<Item<K,V>> currentItr;
+
+        public HASHTABLEIterator(){
+            currentIndex = 0;
+            currentItr = hashTable[currentIndex].iterator();
+        }
+
+        @Override
+        public Item<K, V> next() {
+            if(!hasNext()){
+                throw new NoSuchElementException();
+            }else{
+                if(currentItr.hasNext()){
+                    return currentItr.next();
+                }else{
+                    currentIndex++;
+                    currentItr = hashTable[currentIndex].iterator();
+                    return currentItr.next();
+                }
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return (currentItr.hasNext() || currentIndex < capacity);
+        }
     }
 }
