@@ -69,7 +69,6 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
             hashTable[index] = newChain.get();
             hashTable[index].insert(key,value);
             size++;
-            return value;
         }else{
             if(hashTable[index].find(key) != null){
                 V oldValue = find(key);
@@ -80,13 +79,27 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
                 size++;
             }
         }
-        return value;
+        return null;
     }
 
     public Dictionary<K,V>[] biggerCapacity(Dictionary<K,V>[] orgHT, int desiredSize){
         Dictionary<K,V>[] temp = (Dictionary<K, V>[]) new Dictionary[desiredSize];
-        for(int i = 0; i < orgHT.length; i++){
-            temp[i] = orgHT[i];
+        for (int i = 0; i < orgHT.length; i++) {
+            if(orgHT[i] != null){
+                Iterator<Item<K,V>> itr = orgHT[i].iterator();
+                int index;
+                while(itr.hasNext()){
+                    Item<K,V> element = itr.next();
+                    index = Math.abs(element.key.hashCode());
+                    index %= desiredSize;
+                    if(temp[index] == null){
+                        temp[index] = newChain.get();
+                        temp[index].insert(element.key,element.value);
+                    }else{
+                        temp[index].insert(element.key, element.value);
+                    }
+                }
+            }
         }
         return temp;
     }
@@ -112,10 +125,12 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
     private class HASHTABLEIterator extends SimpleIterator<Item<K,V>> {
 
         private int currentIndex;
+        private int elementCount;
         private Iterator<Item<K,V>> currentItr;
 
         public HASHTABLEIterator(){
             currentIndex = 0;
+            elementCount = 0;
             currentItr = hashTable[currentIndex].iterator();
         }
 
@@ -125,9 +140,20 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
                 throw new NoSuchElementException();
             }else{
                 if(currentItr.hasNext()){
+                    elementCount++;
                     return currentItr.next();
                 }else{
+                    elementCount++;
                     currentIndex++;
+                    if(currentIndex < hashTable.length && hashTable[currentIndex] == null){
+                        currentIndex++;
+                        while(currentIndex < hashTable.length && hashTable[currentIndex] == null){
+                            currentIndex++;
+                        }
+                    }
+                    if(currentIndex >= hashTable.length){
+                        return null;
+                    }
                     currentItr = hashTable[currentIndex].iterator();
                     return currentItr.next();
                 }
@@ -136,7 +162,11 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
 
         @Override
         public boolean hasNext() {
-            return (currentItr.hasNext() || currentIndex < capacity);
+            boolean keepGoingIndex = true;
+            if((currentIndex < hashTable.length && elementCount >= size) || (currentIndex >= hashTable.length)){
+                keepGoingIndex = false;
+            }
+            return (currentItr.hasNext() || keepGoingIndex);
         }
     }
 }
