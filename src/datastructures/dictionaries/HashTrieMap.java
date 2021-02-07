@@ -1,11 +1,13 @@
 package datastructures.dictionaries;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import cse332.interfaces.misc.BString;
+import cse332.interfaces.misc.SimpleIterator;
 import cse332.interfaces.trie.TrieMap;
 import datastructures.worklists.ArrayStack;
 
@@ -29,6 +31,20 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
         public Iterator<Entry<A, HashTrieMap<A, K, V>.HashTrieNode>> iterator() {
             return pointers.entrySet().iterator();
         }
+
+//        private class NODEIterator extends SimpleIterator<Entry<A, HashTrieMap>>{
+//
+//            @Override
+//            public Entry<A, HashTrieMap> next() {
+//                pointers.
+//                return AbstractMap.SimpleEntry<>
+//            }
+//
+//            @Override
+//            public boolean hasNext() {
+//                return false;
+//            }
+//        }
     }
 
     public HashTrieMap(Class<K> KClass) {
