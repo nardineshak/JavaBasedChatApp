@@ -1,8 +1,5 @@
 package p2.sorts;
 
-import net.reduls.sanmoku.dic.Char;
-
-import java.util.Arrays;
 import java.util.Comparator;
 
 public class QuickSort {
