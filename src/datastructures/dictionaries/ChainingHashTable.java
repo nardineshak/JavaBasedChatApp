@@ -29,13 +29,13 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
     private Supplier<Dictionary<K, V>> newChain;
     private Dictionary<K, V>[] hashTable;
     private int capacity;
-    private final double LAMDA = 0.9;
-    private final int PRIME_NUMS[] = {11, 23, 47, 97, 193, 389, 787, 1559, 3119, 6247, 12473, 24943, 49891, 99787, 199967};
+    private final double lambda = 0.9;
+    private final int primeNums[] = {11, 23, 47, 97, 193, 389, 787, 1559, 3119, 6247, 12473, 24943, 49891, 99787, 199967};
     private int primeIndex = 0;
 
     public ChainingHashTable(Supplier<Dictionary<K, V>> newChain) {
         this.newChain = newChain;
-        capacity = PRIME_NUMS[primeIndex];
+        capacity = primeNums[primeIndex];
         hashTable = (Dictionary<K, V>[]) new Dictionary[capacity];
         primeIndex++;
     }
@@ -49,12 +49,12 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
         //if less than the size 200,000 use the prime number method
         //if greater than 200,000 just double
         double currentLamda = (1.0) * size / capacity;
-        if (currentLamda >= LAMDA && primeIndex < PRIME_NUMS.length) {
-            capacity = PRIME_NUMS[primeIndex];
+        if (currentLamda >= lambda && primeIndex < primeNums.length) {
+            capacity = primeNums[primeIndex];
             hashTable = biggerCapacity(hashTable, capacity);
             primeIndex++;
         }
-        if (currentLamda >= LAMDA && primeIndex >= PRIME_NUMS.length) {
+        if (currentLamda >= lambda && primeIndex >= primeNums.length) {
             capacity *= 2;
             hashTable = biggerCapacity(hashTable, capacity);
         }
