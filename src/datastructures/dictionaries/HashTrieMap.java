@@ -55,10 +55,10 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
 
     @Override
     public V insert(K key, V value) {
-        if(key == null || value == null) {
+        if (key == null || value == null) {
             throw new IllegalArgumentException();
         }
-        if(key.toString().equals("")){
+        if (key.toString().equals("")) {
             this.root.value = value;
             this.size++;
             return null;
@@ -66,18 +66,18 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
         Iterator<A> keyItr = key.iterator();
         HashTrieNode currentNode = (HashTrieNode) this.root;
         A currentCharacter;
-        while(keyItr.hasNext()){
+        while (keyItr.hasNext()) {
             currentCharacter = keyItr.next();
-            if(currentNode.pointers.containsKey(currentCharacter)){
-                if(keyItr.hasNext() == false){
+            if (currentNode.pointers.containsKey(currentCharacter)) {
+                if (keyItr.hasNext() == false) {
                     V removedValue = currentNode.pointers.get(currentCharacter).value;
                     currentNode.pointers.get(currentCharacter).value = value;
                     return removedValue;
                 }
-            }else{
-                if(keyItr.hasNext()){
+            } else {
+                if (keyItr.hasNext()) {
                     currentNode.pointers.put(currentCharacter, new HashTrieNode());
-                }else{
+                } else {
                     currentNode.pointers.put(currentCharacter, new HashTrieNode(value));
                 }
             }
@@ -89,24 +89,24 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
 
     @Override
     public V find(K key) {
-        if(key == null) {
+        if (key == null) {
             throw new IllegalArgumentException();
         }
-        if(key.toString().equals("")){
+        if (key.toString().equals("")) {
             return this.root.value;
         }
         A currentCharacter;
         HashTrieNode current = (HashTrieNode) this.root;
         Iterator<A> keyItr = key.iterator();
         V desiredVal = null;
-        while(keyItr.hasNext()){
+        while (keyItr.hasNext()) {
             currentCharacter = keyItr.next();
-            if(current.pointers.containsKey(currentCharacter)){
-                if(keyItr.hasNext() == false){
+            if (current.pointers.containsKey(currentCharacter)) {
+                if (keyItr.hasNext() == false) {
                     desiredVal = current.pointers.get(currentCharacter).value;
                 }
                 current = current.pointers.get(currentCharacter);
-            }else{
+            } else {
                 desiredVal = null;
                 break;
             }
@@ -116,21 +116,21 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
 
     @Override
     public boolean findPrefix(K key) {
-        if(key == null){
+        if (key == null) {
             throw new IllegalArgumentException();
         }
-        if(key.toString().equals("")){
+        if (key.toString().equals("")) {
             return true;
         }
         Iterator<A> keyItr = key.iterator();
         HashTrieNode current = (HashTrieNode) this.root;
         A currentCharacter;
         boolean prefixPresent = false;
-        while(keyItr.hasNext()){
+        while (keyItr.hasNext()) {
             currentCharacter = keyItr.next();
-            if(current.pointers.containsKey(currentCharacter)){
+            if (current.pointers.containsKey(currentCharacter)) {
                 prefixPresent = true;
-            }else{
+            } else {
                 prefixPresent = false;
                 break;
             }
@@ -147,13 +147,13 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
         Iterator<A> keyItr = key.iterator();
         HashTrieNode current = (HashTrieNode) this.root;
         A currentCharacter;
-        if(key.toString().equals("")){
-            if(current.value != null){
+        if (key.toString().equals("")) {
+            if (current.value != null) {
                 current.value = null;
                 this.size--;
             }
             return;
-        }else {
+        } else {
             //iterate down to the last character and adds each node except the last one to a stack while doing so
             ArrayStack<HashTrieNode> path = new ArrayStack<>();
             ArrayStack<A> backWardCharacters = new ArrayStack<>();
@@ -161,10 +161,10 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
             while (keyItr.hasNext()) {
                 currentCharacter = keyItr.next();
                 if (current.pointers.containsKey(currentCharacter)) {
-                    if(keyItr.hasNext() == false){
+                    if (keyItr.hasNext() == false) {
                         current = current.pointers.get(currentCharacter);
                         backWardCharacters.add(currentCharacter);
-                    }else{
+                    } else {
                         current = current.pointers.get(currentCharacter);
                         path.add(current);
                         backWardCharacters.add(currentCharacter);
@@ -177,21 +177,21 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
             //and break out of while loop if the node does
             HashTrieNode parent;
             boolean lastElement = true;
-            while(path.hasWork()){
+            while (path.hasWork()) {
                 parent = path.next();
                 currentCharacter = backWardCharacters.next();
-                if(parent.pointers.get(currentCharacter).pointers.isEmpty() && lastElement == true){
+                if (parent.pointers.get(currentCharacter).pointers.isEmpty() && lastElement == true) {
                     parent.pointers.remove(currentCharacter);
                     lastElement = false;
-                }else if(!(parent.pointers.get(currentCharacter).pointers.isEmpty()) && lastElement == true){
+                } else if (!(parent.pointers.get(currentCharacter).pointers.isEmpty()) && lastElement == true) {
                     parent.pointers.get(currentCharacter).value = null;
                     lastElement = false;
                     return;
-                } else if((parent.pointers.get(currentCharacter).value == null
-                        && parent.pointers.get(currentCharacter).pointers.isEmpty())){
+                } else if ((parent.pointers.get(currentCharacter).value == null
+                        && parent.pointers.get(currentCharacter).pointers.isEmpty())) {
                     parent.pointers.remove(currentCharacter);
                     lastElement = false;
-                }else{
+                } else {
                     break;
                 }
             }

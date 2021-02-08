@@ -11,15 +11,15 @@ import java.util.NoSuchElementException;
  * TODO: Replace this comment with your own as appropriate.
  * 1. The list is typically not sorted.
  * 2. Add new items to the front of the list.
- * 3. Whenever find is called on an item, move it to the front of the 
- *    list. This means you remove the node from its current position 
- *    and make it the first node in the list.
+ * 3. Whenever find is called on an item, move it to the front of the
+ * list. This means you remove the node from its current position
+ * and make it the first node in the list.
  * 4. You need to implement an iterator. The iterator SHOULD NOT move
- *    elements to the front.  The iterator should return elements in
- *    the order they are stored in the list, starting with the first
- *    element in the list. When implementing your iterator, you should 
- *    NOT copy every item to another dictionary/list and return that 
- *    dictionary/list's iterator. 
+ * elements to the front.  The iterator should return elements in
+ * the order they are stored in the list, starting with the first
+ * element in the list. When implementing your iterator, you should
+ * NOT copy every item to another dictionary/list and return that
+ * dictionary/list's iterator.
  */
 public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
 
@@ -27,16 +27,16 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
 
     @Override
     public V insert(K key, V value) {
-        if(this.size() == 0){
+        if (this.size() == 0) {
             front = new Node<>(key, value);
             this.size++;
-        }else{
-            if(this.find(key) == null){
+        } else {
+            if (this.find(key) == null) {
                 Node<K, V> newNode = new Node<>(key, value);
                 newNode.next = front;
                 front = newNode;
                 this.size++;
-            }else{
+            } else {
                 V oldVal = front.value;
                 front.value = value;
                 return oldVal;
@@ -47,19 +47,22 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
 
     @Override
     public V find(K key) {
-        if(this.size() == 0){
+        if (this.size() == 0) {
             return null;
         }
-        if(front.key.equals(key)){
+        if (front.key == null) {
+            throw new NullPointerException();
+        }
+        if (front.key.equals(key)) {
             return front.value;
         }
         Node<K, V> currentNode = front;
-        Node<K,V> prevNode = null;
+        Node<K, V> prevNode = null;
         boolean found = false;
         V foundVal = null;
-        while(!found && currentNode != null){
-            if(currentNode.key.equals(key)){
-                if(prevNode != null){
+        while (!found && currentNode != null) {
+            if (currentNode.key.equals(key)) {
+                if (prevNode != null) {
                     prevNode.next = currentNode.next;
                 }
                 currentNode.next = front;
@@ -102,13 +105,13 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
         }
     }
 
-    private static class Node<K, V> extends Item<K, V>{
+    private static class Node<K, V> extends Item<K, V> {
 
         //Node data fields
         public MoveToFrontList.Node<K, V> next;
 
         //Parameterized Node constructor
-        public Node(K key, V data){
+        public Node(K key, V data) {
             super(key, data);
         }
 
