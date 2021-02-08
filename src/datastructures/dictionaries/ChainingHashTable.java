@@ -60,7 +60,7 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
         }
         //check whether key already exists, if it does just update value
         //if it doesn't add the new value
-        int index = key.hashCode();
+        int index = Math.abs(key.hashCode() + 1);
         index %= capacity;
         if (hashTable[index] == null) {
             hashTable[index] = newChain.get();
@@ -88,7 +88,7 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
                 int index;
                 while (itr.hasNext()) {
                     Item<K, V> element = itr.next();
-                    index = element.key.hashCode();
+                    index = Math.abs(element.key.hashCode() + 1);
                     index %= desiredSize;
                     if (temp[index] == null) {
                         temp[index] = newChain.get();
@@ -107,7 +107,7 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
         if (key == null) {
             throw new IllegalArgumentException();
         }
-        int index = key.hashCode();
+        int index = Math.abs(key.hashCode() + 1);
         index %= capacity;
         if (this.size == 0 || hashTable[index] == null) {
             return null;

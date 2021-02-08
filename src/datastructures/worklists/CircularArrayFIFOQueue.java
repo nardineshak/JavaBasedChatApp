@@ -17,7 +17,7 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
 
     public CircularArrayFIFOQueue(int capacity) {
         super(capacity);
-        circularArray = (E[])new Comparable[capacity];
+        circularArray = (E[]) new Comparable[capacity];
         head = 0;
         tail = 0;
         size = 0;
@@ -25,7 +25,7 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
 
     @Override
     public void add(E work) {
-        if (!this.isFull()){
+        if (!this.isFull()) {
             if (size == 0 && tail == 0 && head == 0) {
                 circularArray[0] = work;
             } else {
@@ -46,7 +46,7 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
             throw new NoSuchElementException();
         }
     }
-    
+
     @Override
     public E peek(int i) {
         if (!this.hasWork()) {
@@ -57,7 +57,7 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
             return circularArray[(head + i) % super.capacity()];
         }
     }
-    
+
     @Override
     public E next() {
         if (this.hasWork()) {
@@ -69,7 +69,7 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
             throw new NoSuchElementException();
         }
     }
-    
+
     @Override
     public void update(int i, E value) {
         if (!this.hasWork()) {
@@ -80,12 +80,12 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
             circularArray[i] = value;
         }
     }
-    
+
     @Override
     public int size() {
         return size;
     }
-    
+
     @Override
     public void clear() {
         head = 0;
@@ -98,7 +98,7 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
     public int compareTo(FixedSizeFIFOWorkList<E> other) {
         // You will implement this method in project 2. Leave this method unchanged for project 1.
         int val = 0;
-        if (other instanceof FixedSizeFIFOWorkList) {
+        if (other != null) {
             int shortLength;
             int longLength;
             if (other.size() < this.size) {
@@ -106,9 +106,8 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
                 longLength = this.size();
             } else {
                 shortLength = this.size();
-                longLength = other.size();
             }
-            for (int i = 0; i < shortLength; i++){
+            for (int i = 0; i < shortLength; i++) {
                 if (other.peek(i).compareTo(this.peek(i)) < 0) {
                     val = 1;
                     break;
@@ -135,11 +134,9 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
-        }
-        else if (!(obj instanceof FixedSizeFIFOWorkList<?>)) {
+        } else if (!(obj instanceof FixedSizeFIFOWorkList<?>)) {
             return false;
-        }
-        else {
+        } else {
             FixedSizeFIFOWorkList<E> other = (FixedSizeFIFOWorkList<E>) obj;
             for (int i = 0; i < other.size(); i++) {
                 if (!(this.peek(i).equals(other.peek(i)))) {
