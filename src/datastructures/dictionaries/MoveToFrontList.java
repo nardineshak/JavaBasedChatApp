@@ -50,9 +50,9 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
         if (this.size() == 0) {
             return null;
         }
-        if (front.key == null) {
-            throw new NullPointerException();
-        }
+//        if (front.key == null) {
+//            throw new NullPointerException();
+//        }
         if (front.key.equals(key)) {
             return front.value;
         }
