@@ -115,6 +115,10 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
             super(key, data);
         }
 
+        public Node(Node<K, V> node) {
+            this(node.key, node.value);
+        }
+
         public V getData() {
             return value;
         }

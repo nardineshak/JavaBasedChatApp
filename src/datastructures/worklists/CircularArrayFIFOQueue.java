@@ -103,7 +103,6 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
             int longLength;
             if (other.size() < this.size) {
                 shortLength = other.size();
-                longLength = this.size();
             } else {
                 shortLength = this.size();
             }
