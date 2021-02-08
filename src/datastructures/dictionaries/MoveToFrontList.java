@@ -25,6 +25,11 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
 
     private Node<K, V> front;
 
+    public MoveToFrontList() {
+        front = new Node<>(null, null);
+        front.next = null;
+    }
+
     @Override
     public V insert(K key, V value) {
         if (this.size() == 0) {
@@ -112,10 +117,6 @@ public class MoveToFrontList<K, V> extends DeletelessDictionary<K, V> {
         //Parameterized Node constructor
         public Node(K key, V data) {
             super(key, data);
-        }
-
-        public Node(Node<K, V> node) {
-            this(node.key, node.value);
         }
 
         public V getData() {

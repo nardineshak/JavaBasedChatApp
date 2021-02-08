@@ -1,15 +1,13 @@
 package datastructures.dictionaries;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import cse332.datastructures.containers.Item;
 import cse332.interfaces.misc.BString;
-import cse332.interfaces.misc.SimpleIterator;
 import cse332.interfaces.trie.TrieMap;
 import datastructures.worklists.ArrayStack;
+
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 /**
  * See cse332/interfaces/trie/TrieMap.java
@@ -17,34 +15,39 @@ import datastructures.worklists.ArrayStack;
  * for method specifications.
  */
 public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> extends TrieMap<A, K, V> {
-    public class HashTrieNode extends TrieNode<Map<A, HashTrieNode>, HashTrieNode> {
+    public class HashTrieNode extends TrieNode<ChainingHashTable<A, HashTrieNode>, HashTrieNode> {
         public HashTrieNode() {
             this(null);
         }
 
         public HashTrieNode(V value) {
-            this.pointers = new HashMap<A, HashTrieNode>();
+            this.pointers = new ChainingHashTable<A, HashTrieNode>(MoveToFrontList::new);
             this.value = value;
         }
 
         @Override
         public Iterator<Entry<A, HashTrieMap<A, K, V>.HashTrieNode>> iterator() {
-            return pointers.entrySet().iterator();
+            return new NODEIterator();
         }
 
-//        private class NODEIterator extends SimpleIterator<Entry<A, HashTrieMap>>{
-//
-//            @Override
-//            public Entry<A, HashTrieMap> next() {
-//                pointers.
-//                return AbstractMap.SimpleEntry<>
-//            }
-//
-//            @Override
-//            public boolean hasNext() {
-//                return false;
-//            }
-//        }
+        private class NODEIterator implements Iterator<Entry<A, HashTrieNode>> {
+            Iterator<Item<A, HashTrieNode>> iterator;
+
+            public NODEIterator() {
+                iterator = pointers.iterator();
+            }
+
+            @Override
+            public Entry<A, HashTrieNode> next() {
+                Item<A, HashTrieNode> next = iterator.next();
+                return new SimpleEntry<A, HashTrieNode>(next.key, next.value);
+            }
+
+            @Override
+            public boolean hasNext() {
+                return pointers != null;
+            }
+        }
     }
 
     public HashTrieMap(Class<K> KClass) {
@@ -53,6 +56,7 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
     }
 
 
+    @SuppressWarnings("unchecked")
     @Override
     public V insert(K key, V value) {
         if (key == null || value == null) {
@@ -68,25 +72,26 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
         A currentCharacter;
         while (keyItr.hasNext()) {
             currentCharacter = keyItr.next();
-            if (currentNode.pointers.containsKey(currentCharacter)) {
-                if (keyItr.hasNext() == false) {
-                    V removedValue = currentNode.pointers.get(currentCharacter).value;
-                    currentNode.pointers.get(currentCharacter).value = value;
+            if (currentNode.pointers.find(currentCharacter) != null) {
+                if (!keyItr.hasNext()) {
+                    V removedValue = currentNode.pointers.find(currentCharacter).value;
+                    currentNode.pointers.find(currentCharacter).value = value;
                     return removedValue;
                 }
             } else {
                 if (keyItr.hasNext()) {
-                    currentNode.pointers.put(currentCharacter, new HashTrieNode());
+                    currentNode.pointers.insert(currentCharacter, new HashTrieNode());
                 } else {
-                    currentNode.pointers.put(currentCharacter, new HashTrieNode(value));
+                    currentNode.pointers.insert(currentCharacter, new HashTrieNode(value));
                 }
             }
-            currentNode = currentNode.pointers.get(currentCharacter);
+            currentNode = currentNode.pointers.find(currentCharacter);
         }
         this.size++;
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public V find(K key) {
         if (key == null) {
@@ -101,11 +106,11 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
         V desiredVal = null;
         while (keyItr.hasNext()) {
             currentCharacter = keyItr.next();
-            if (current.pointers.containsKey(currentCharacter)) {
-                if (keyItr.hasNext() == false) {
-                    desiredVal = current.pointers.get(currentCharacter).value;
+            if (current.pointers.find(currentCharacter) != null) {
+                if (!keyItr.hasNext()) {
+                    desiredVal = current.pointers.find(currentCharacter).value;
                 }
-                current = current.pointers.get(currentCharacter);
+                current = current.pointers.find(currentCharacter);
             } else {
                 desiredVal = null;
                 break;
@@ -114,6 +119,7 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
         return desiredVal;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean findPrefix(K key) {
         if (key == null) {
@@ -128,17 +134,18 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
         boolean prefixPresent = false;
         while (keyItr.hasNext()) {
             currentCharacter = keyItr.next();
-            if (current.pointers.containsKey(currentCharacter)) {
+            if (current.pointers.find(currentCharacter) != null) {
                 prefixPresent = true;
             } else {
                 prefixPresent = false;
                 break;
             }
-            current = current.pointers.get(currentCharacter);
+            current = current.pointers.find(currentCharacter);
         }
         return prefixPresent;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void delete(K key) {
         if (key == null) {
@@ -152,7 +159,6 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
                 current.value = null;
                 this.size--;
             }
-            return;
         } else {
             //iterate down to the last character and adds each node except the last one to a stack while doing so
             ArrayStack<HashTrieNode> path = new ArrayStack<>();
@@ -160,12 +166,12 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
             path.add((HashTrieNode) this.root);
             while (keyItr.hasNext()) {
                 currentCharacter = keyItr.next();
-                if (current.pointers.containsKey(currentCharacter)) {
-                    if (keyItr.hasNext() == false) {
-                        current = current.pointers.get(currentCharacter);
+                if (current.pointers.find(currentCharacter) != null) {
+                    if (!keyItr.hasNext()) {
+                        current = current.pointers.find(currentCharacter);
                         backWardCharacters.add(currentCharacter);
                     } else {
-                        current = current.pointers.get(currentCharacter);
+                        current = current.pointers.find(currentCharacter);
                         path.add(current);
                         backWardCharacters.add(currentCharacter);
                     }
@@ -180,16 +186,16 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
             while (path.hasWork()) {
                 parent = path.next();
                 currentCharacter = backWardCharacters.next();
-                if (parent.pointers.get(currentCharacter).pointers.isEmpty() && lastElement == true) {
-                    parent.pointers.remove(currentCharacter);
+                if (parent.pointers.find(currentCharacter).pointers.isEmpty() && lastElement) {
+                    parent.pointers.delete(currentCharacter);
                     lastElement = false;
-                } else if (!(parent.pointers.get(currentCharacter).pointers.isEmpty()) && lastElement == true) {
-                    parent.pointers.get(currentCharacter).value = null;
+                } else if (!(parent.pointers.find(currentCharacter).pointers.isEmpty()) && lastElement) {
+                    parent.pointers.find(currentCharacter).value = null;
                     lastElement = false;
                     return;
-                } else if ((parent.pointers.get(currentCharacter).value == null
-                        && parent.pointers.get(currentCharacter).pointers.isEmpty())) {
-                    parent.pointers.remove(currentCharacter);
+                } else if ((parent.pointers.find(currentCharacter).value == null
+                        && parent.pointers.find(currentCharacter).pointers.isEmpty())) {
+                    parent.pointers.delete(currentCharacter);
                     lastElement = false;
                 } else {
                     break;
@@ -201,7 +207,6 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
 
     @Override
     public void clear() {
-        this.root = new HashTrieNode();
-        this.size = 0;
+        throw new UnsupportedOperationException();
     }
 }
