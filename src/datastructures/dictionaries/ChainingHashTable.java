@@ -33,6 +33,16 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
     private final int[] primeNums = {11, 23, 47, 97, 193, 389, 787, 1559, 3119, 6247, 12473, 24943, 49891, 99787, 199967};
     private int primeIndex = 0;
 
+    public static void main(String[] args) {
+        ChainingHashTable<Integer, Integer> ht = new ChainingHashTable(MoveToFrontList::new);
+        ht.insert(1,1);
+        ht.insert(2,2);
+        ht.insert(2,4);
+        ht.insert(3,1);
+        for (Item element: ht) {
+            System.out.println(element.key + " " + element.value);
+        }
+    }
     public ChainingHashTable(Supplier<Dictionary<K, V>> newChain) {
         this.newChain = newChain;
         capacity = primeNums[primeIndex];
@@ -129,7 +139,15 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
         public HASHTABLEIterator() {
             currentIndex = 0;
             elementCount = 0;
-            currentItr = hashTable[currentIndex].iterator();
+            //currentItr = hashTable[currentIndex].iterator();
+//            if(hashTable != null) {
+//                currentIndex = 0;
+//                elementCount = 0;
+//                while (currentIndex < hashTable.length - 1 && hashTable[currentIndex] == null) {
+//                    currentIndex++;
+//                }
+//                currentItr = hashTable[currentIndex].iterator();
+//            }
         }
 
         @Override
@@ -137,34 +155,91 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             } else {
-                if (currentItr.hasNext()) {
-                    elementCount++;
-                    return currentItr.next();
-                } else {
-                    elementCount++;
-                    currentIndex++;
-                    if (currentIndex < hashTable.length && hashTable[currentIndex] == null) {
-                        currentIndex++;
-                        while (currentIndex < hashTable.length && hashTable[currentIndex] == null) {
-                            currentIndex++;
-                        }
-                    }
-                    if (currentIndex >= hashTable.length) {
-                        return null;
-                    }
-                    currentItr = hashTable[currentIndex].iterator();
-                    return currentItr.next();
-                }
+                elementCount++;
+                return currentItr.next();
             }
+//            if (!hasNext()) {
+//                throw new NoSuchElementException();
+//            } else {
+//                if (currentItr.hasNext()) {
+//                    elementCount++;
+//                    return currentItr.next();
+//                } else {
+//                    elementCount++;
+//                    currentIndex++;
+//                    while (currentIndex < hashTable.length && hashTable[currentIndex] == null) {
+//                        currentIndex++;
+//                    }
+//                    if (currentIndex >= hashTable.length) {
+//                        return null;
+//                    }
+//                    currentItr = hashTable[currentIndex].iterator();
+//                    return currentItr.next();
+//                }
+//            }
         }
 
         @Override
         public boolean hasNext() {
             boolean keepGoingIndex = true;
+            //checks to see if our index is out of bounds
+            // and if we should stop if we already printed out all the elements
             if (currentIndex >= hashTable.length || elementCount >= size) {
                 keepGoingIndex = false;
             }
-            return (currentItr.hasNext() || keepGoingIndex);
+            if (currentItr == null) {
+                while (currentIndex < hashTable.length && hashTable[currentIndex] == null) {
+                    currentIndex++;
+                }
+                if(currentIndex >= hashTable.length){
+                    return false;
+                }
+                currentItr = hashTable[currentIndex].iterator();
+                while(currentItr.hasNext()){
+                    System.out.print(currentItr.next() + " ");
+                }
+                return true;
+            }
+            if (!currentItr.hasNext() && elementCount < size && currentIndex < hashTable.length) {
+                currentIndex++;
+                while (currentIndex < hashTable.length && hashTable[currentIndex] == null) {
+                    currentIndex++;
+                }
+                if(currentIndex >= hashTable.length){
+                    return false;
+                }
+                currentItr = hashTable[currentIndex].iterator();
+                while(currentItr.hasNext()){
+                    System.out.println(currentItr.next() + " ");
+                }
+                return true;
+            }
+            return (keepGoingIndex || currentItr.hasNext());
+//
+//            //if the iterator is not initialized, initialize it with the index that is !null
+//            if(currentItr == null){
+//                while (currentIndex < hashTable.length && hashTable[currentIndex] == null) {
+//                    currentIndex++;
+//                }
+//                if (currentIndex >= hashTable.length) {
+//                    keepGoingIndex = false;
+//                }else{
+//                    currentItr = hashTable[currentIndex].iterator();
+//                }
+//            }
+//            //if the current index's iterator finished and we still have elements to go through update index
+//            //to the next !null index
+//            if ((!currentItr.hasNext() && elementCount < size)) {
+//                currentIndex++;
+//                while (currentIndex < hashTable.length && hashTable[currentIndex] == null) {
+//                    currentIndex++;
+//                }
+//                if (currentIndex >= hashTable.length) {
+//                   keepGoingIndex = false;
+//                }else{
+//                    currentItr = hashTable[currentIndex].iterator();
+//                }
+//            }
         }
     }
 }
