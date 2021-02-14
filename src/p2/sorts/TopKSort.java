@@ -11,6 +11,7 @@ public class TopKSort {
 
     public static <E> void sort(E[] array, int k, Comparator<E> comparator) {
         MinFourHeap<E> heap = new MinFourHeap<>(comparator);
+
         for (int i = 0; i < k && i < array.length; i++) {
             heap.add(array[i]);
         }
@@ -22,11 +23,12 @@ public class TopKSort {
             }
         }
 
+        int length = k;
         if (heap.size() < k) {
-            k = heap.size();
+            length = heap.size();
         }
 
-        for (int i = 0; i < k; i++) {
+        for (int i = 0; i < length; i++) {
             E temp = heap.next();
             array[i] = temp;
         }

@@ -16,13 +16,18 @@ public class BSTAVLTests {
             for (int i = 0; i < NUM_TESTS; i++) {
                 long startTime = System.currentTimeMillis();
 
-                // code here
+                BinarySearchTree<Integer, Integer> bst = new BinarySearchTree<>();
+                for (int j = 1; j < Integer.MAX_VALUE; j++) {
+                    bst.insert(i, i);
+                }
 
                 long endTime = System.currentTimeMillis();
                 if (NUM_WARMUP <= i) {
                     totalTime += (endTime - startTime);
                 }
+                System.out.println("test " + (i + 1) + " = " + (endTime - startTime) + "ms");
         }
         double averageRuntime = totalTime / (NUM_TESTS - NUM_WARMUP);
+        System.out.println("average runtime = " + averageRuntime + "ms");
     }
 }
