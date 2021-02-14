@@ -37,14 +37,9 @@ public class uMessage {
     private static int N = 3;
     private static String CORPUS = "irc.corpus";
     private static Supplier<Dictionary<NGram, Dictionary<AlphabeticString, Integer>>> NEW_OUTER = NGramTester
-            .hashtableConstructor(MoveToFrontList::new);
+            .trieConstructor(NGram.class);
     private static Supplier<Dictionary<AlphabeticString, Integer>> NEW_INNER = NGramTester
-            .avlTreeConstructor();
-
-//    private static Supplier<Dictionary<NGram, Dictionary<AlphabeticString, Integer>>> NEW_OUTER = NGramTester
-//            .trieConstructor(NGram.class);
-//    private static Supplier<Dictionary<AlphabeticString, Integer>> NEW_INNER = NGramTester
-//            .trieConstructor(AlphabeticString.class);
+            .trieConstructor(AlphabeticString.class);
 
     /*
      *

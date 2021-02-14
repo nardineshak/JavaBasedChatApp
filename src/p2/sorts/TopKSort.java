@@ -22,7 +22,11 @@ public class TopKSort {
             }
         }
 
-        for (int i = 0; i < k && k < heap.size(); i++) {
+        if (heap.size() < k) {
+            k = heap.size();
+        }
+
+        for (int i = 0; i < k; i++) {
             E temp = heap.next();
             array[i] = temp;
         }
