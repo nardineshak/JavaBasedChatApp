@@ -1,18 +1,16 @@
 package p2.wordsuggestor;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.function.Supplier;
-
 import cse332.datastructures.containers.Item;
-import cse332.exceptions.NotYetImplementedException;
 import cse332.interfaces.misc.Dictionary;
 import cse332.misc.LargeValueFirstItemComparator;
-import cse332.sorts.InsertionSort;
 import cse332.types.AlphabeticString;
 import cse332.types.NGram;
 import p2.sorts.QuickSort;
 import p2.sorts.TopKSort;
+
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.function.Supplier;
 
 public class NGramToNextChoicesMap {
     private final Dictionary<NGram, Dictionary<AlphabeticString, Integer>> map;
@@ -47,9 +45,7 @@ public class NGramToNextChoicesMap {
      * Returns an array of the DataCounts for this particular ngram. Order is
      * not specified.
      *
-     * @param ngram
-     *            the ngram we want the counts for
-     * 
+     * @param ngram the ngram we want the counts for
      * @return An array of all the Items for the requested ngram.
      */
     public Item<String, Integer>[] getCountsAfter(NGram ngram) {
@@ -78,8 +74,7 @@ public class NGramToNextChoicesMap {
         Comparator<Item<String, Integer>> comp = new LargeValueFirstItemComparator<String, Integer>();
         if (k < 0) {
             QuickSort.sort(afterNGrams, comp);
-        }
-        else {
+        } else {
             //1,2,3,4,5,6,7
             //1,2,3,4
 
@@ -92,11 +87,11 @@ public class NGramToNextChoicesMap {
             //check if afterNGrams is less than k
             //k represents # of words we want to suggest
             //afterNgrams is possibility of things we can provide
-            if(afterNGrams.length < k){
+            if (afterNGrams.length < k) {
                 length = afterNGrams.length;
             }
             Item<String, Integer>[] temp = (Item<String, Integer>[]) new Item[length];
-            for (int i = 0; i < length ; i++) {
+            for (int i = 0; i < length; i++) {
                 temp[i] = afterNGrams[k - i - 1];
             }
             afterNGrams = temp;
