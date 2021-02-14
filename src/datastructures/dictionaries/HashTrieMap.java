@@ -45,7 +45,7 @@ public class HashTrieMap<A extends Comparable<A>, K extends BString<A>, V> exten
 
             @Override
             public boolean hasNext() {
-                return pointers != null;
+                return iterator.hasNext();
             }
         }
     }
