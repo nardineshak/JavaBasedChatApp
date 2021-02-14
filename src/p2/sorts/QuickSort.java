@@ -12,7 +12,8 @@ public class QuickSort {
     }
 
     private static <E> void quickSort(E[] array, Comparator<E> comparator, int lo, int hi) {
-        E pivot = array[lo + hi >>> 1];
+        //average of two numbers without overflowing
+        E pivot = array[(hi + lo) >>> 1];
         int i = lo;
         int j = hi;
 

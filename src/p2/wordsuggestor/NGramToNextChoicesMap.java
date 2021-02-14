@@ -92,7 +92,7 @@ public class NGramToNextChoicesMap {
             }
             Item<String, Integer>[] temp = (Item<String, Integer>[]) new Item[length];
             for (int i = 0; i < length; i++) {
-                temp[i] = afterNGrams[k - i - 1];
+                temp[i] = afterNGrams[length - i - 1];
             }
             afterNGrams = temp;
         }
