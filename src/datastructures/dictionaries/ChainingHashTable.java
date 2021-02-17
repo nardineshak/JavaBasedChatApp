@@ -33,19 +33,6 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
     private final int[] primeNums = {11, 23, 47, 97, 193, 389, 787, 1559, 3119, 6247, 12473, 24943, 49891, 99787, 199967};
     private int primeIndex = 0;
 
-    public static void main(String[] args) {
-        ChainingHashTable<Integer, Integer> ht = new ChainingHashTable(MoveToFrontList::new);
-        ht.insert(1, 1);
-        ht.insert(2, 6);
-        ht.insert(2, 2);
-        ht.insert(2, 7);
-        ht.insert(2, 9);
-        ht.insert(3, 1);
-        for (Item element : ht) {
-            System.out.println(element.key + " " + element.value);
-        }
-    }
-
     public ChainingHashTable(Supplier<Dictionary<K, V>> newChain) {
         this.newChain = newChain;
         capacity = primeNums[primeIndex];
@@ -148,7 +135,26 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
         public Item<K, V> next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
-            } else {
+            }else {
+                if(currentItr == null){
+                    while(currentIndex < hashTable.length && hashTable[currentIndex] == null){
+                        currentIndex++;
+                    }
+                    if(currentIndex >= hashTable.length){
+                        return null;
+                    }
+                    currentItr = hashTable[currentIndex].iterator();
+                }
+                if(!currentItr.hasNext()){
+                    currentIndex++;
+                    while(currentIndex < hashTable.length && hashTable[currentIndex] == null){
+                        currentIndex++;
+                    }
+                    if(currentIndex >= hashTable.length){
+                        return null;
+                    }
+                    currentItr = hashTable[currentIndex].iterator();
+                }
                 elementCount++;
                 return currentItr.next();
             }
@@ -156,35 +162,7 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
 
         @Override
         public boolean hasNext() {
-            boolean keepGoingIndex = true;
-            //checks to see if our index is out of bounds
-            // and if we should stop if we already printed out all the elements
-            if (currentIndex >= hashTable.length || elementCount >= size) {
-                keepGoingIndex = false;
-            }
-            if (currentItr == null) {
-                while (currentIndex < hashTable.length && hashTable[currentIndex] == null) {
-                    currentIndex++;
-                }
-                if (currentIndex >= hashTable.length) {
-                    return false;
-                }
-                currentItr = hashTable[currentIndex].iterator();
-                return true;
-            }
-            if (!currentItr.hasNext() && elementCount < size && currentIndex < hashTable.length) {
-                currentIndex++;
-                while (currentIndex < hashTable.length && hashTable[currentIndex] == null) {
-                    currentIndex++;
-                }
-                if (currentIndex >= hashTable.length) {
-                    return false;
-                }
-                currentItr = hashTable[currentIndex].iterator();
-                return true;
-            }
-            return (keepGoingIndex || currentItr.hasNext());
-
+            return elementCount < size;
         }
     }
 }
