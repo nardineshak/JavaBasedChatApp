@@ -40,11 +40,6 @@ public class uMessage {
             .hashtableConstructor(MoveToFrontList::new);
     private static Supplier<Dictionary<AlphabeticString, Integer>> NEW_INNER = NGramTester.avlTreeConstructor();
 
-//    private static Supplier<Dictionary<NGram, Dictionary<AlphabeticString, Integer>>> NEW_OUTER = NGramTester
-//            .trieConstructor(NGram.class);
-//    private static Supplier<Dictionary<AlphabeticString, Integer>> NEW_INNER = NGramTester
-//            .trieConstructor(AlphabeticString.class);
-
     /*
      *
      *
