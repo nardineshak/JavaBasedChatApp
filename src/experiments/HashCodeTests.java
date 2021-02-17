@@ -3,6 +3,7 @@ package experiments;
 import cse332.datastructures.containers.Item;
 import cse332.types.AlphabeticString;
 import datastructures.dictionaries.ChainingHashTable;
+import datastructures.dictionaries.HashTrieMap;
 import datastructures.dictionaries.MoveToFrontList;
 
 import java.io.File;
@@ -16,15 +17,47 @@ public class HashCodeTests {
         hashFind();
     }
 
+//    public static void hashFind() throws FileNotFoundException {
+//        ChainingHashTable<String, Integer> table = new ChainingHashTable<>(MoveToFrontList::new);
+//        Scanner input = new Scanner(new File("alice.txt"));
+//        int counter = 1;
+//
+//        long totalTime2 = 0;
+//
+//        while (input.hasNext()) {
+//            table.insert(input.next(), counter);
+//            counter++;
+//        }
+//
+//        int NUM_TESTS = 6;
+//        int NUM_WARMUP = 3;
+//
+//        for (int i = 0; i < NUM_TESTS; i++) {
+//            Iterator<Item<String, Integer>> itr = table.iterator();
+//            long startTime = System.currentTimeMillis();
+//            while (itr.hasNext()) {
+//                table.find(itr.next().key);
+//            }
+//            long endTime = System.currentTimeMillis();
+//            totalTime2 += (endTime - startTime);
+//
+//            if (NUM_WARMUP <= i) {
+//                totalTime2 += (endTime - startTime);
+//            }
+//        }
+//        double averageRuntime = (double) totalTime2 / (NUM_TESTS - NUM_WARMUP);
+//        System.out.println("hash find per total amount = " + averageRuntime + "ms");
+//    }
+
     public static void hashFind() throws FileNotFoundException {
-        ChainingHashTable<String, Integer> table = new ChainingHashTable<>(MoveToFrontList::new);
+        ChainingHashTable<AlphabeticString, Integer> table = new ChainingHashTable<>(MoveToFrontList::new);
         Scanner input = new Scanner(new File("alice.txt"));
         int counter = 1;
 
         long totalTime2 = 0;
 
         while (input.hasNext()) {
-            table.insert(input.next(), counter);
+            table.insert(new AlphabeticString(input.next()), counter);
             counter++;
         }
 
@@ -32,10 +65,9 @@ public class HashCodeTests {
         int NUM_WARMUP = 3;
 
         for (int i = 0; i < NUM_TESTS; i++) {
-            Iterator<Item<String, Integer>> itr = table.iterator();
             long startTime = System.currentTimeMillis();
-            while (itr.hasNext()) {
-                table.find(itr.next().key);
+            while (input.hasNext()) {
+                table.find(new AlphabeticString(input.next()));
             }
             long endTime = System.currentTimeMillis();
             totalTime2 += (endTime - startTime);

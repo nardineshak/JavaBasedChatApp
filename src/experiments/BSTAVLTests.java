@@ -9,10 +9,19 @@ public class BSTAVLTests {
 
     public static void main(String[] args) throws FileNotFoundException {
         int[] intElements = {1000, 2000, 4000, 8000, 16000, 32000};
+//
+//        for (int amount : intElements) {
+//            timer(() -> insertAVLRandom(amount));
+//        }
 
-        for (int amount : intElements) {
-            timer(() -> insertAVLRandom(amount));
+        int[] lottaElts = {500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000, 11500, 12000, 12500, 13000, 13500, 14000, 14500, 15000, 15500, 16000, 16500, 17000, 17500, 18000, 18500, 19000, 19500, 20000};
+
+        for (int amount : lottaElts) {
+            findBSTRandom(amount);
+
         }
+
+
     }
 
     public static void timer(Runnable test) {
@@ -109,12 +118,10 @@ public class BSTAVLTests {
 
     public static void findBSTRandom(int numElements) {
         long totalTime2 = 0;
-
-
-        int randomNum = (int) (Math.random() * numElements);
+        int randomRoot = (int) (Math.random() * numElements);
 
         BinarySearchTree<Integer, Integer> bst = new BinarySearchTree<>();
-        bst.insert(randomNum, 1);
+        bst.insert(randomRoot, 1);
         for (int j = 1; j < numElements; j++) {
             bst.insert(j, j);
         }
@@ -124,14 +131,17 @@ public class BSTAVLTests {
         for (int i = 1; i < NUM_TESTS; i++) {
             //
             for (int j = 1; j < numElements; j++) {
+                int randomNum = (int) (Math.random() * numElements);
                 long startTime = System.currentTimeMillis();
-                bst.find(j);
+                bst.find(randomNum);
                 long endTime = System.currentTimeMillis();
                 totalTime2 += (endTime - startTime);
+                if (NUM_WARMUP <= i) {
+                    totalTime2 += (endTime - startTime);
+                }
             }
-            //
         }
-        double averageRuntime = (double) totalTime2;
+        double averageRuntime = (double) totalTime2 / (NUM_TESTS - NUM_WARMUP);
         System.out.println("average bst find per element = " + averageRuntime + "ms");
     }
 
