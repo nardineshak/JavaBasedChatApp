@@ -50,6 +50,8 @@ public class AVLTree<K extends Comparable<? super K>, V> extends BinarySearchTre
         return t;
     }
 
+    //proje=c-> {   t[1976]-> {     e-> {       d[2302]     },     s[4465],     i-> {       n-> {         g[5133]       },       o-> {         n[8841]       },       l-> {         e[9674]       }     }   } } c=t[1976]-> {   e-> {     d[2302]   },   s[4465],   i-> {     n-> {       g[5133]     },     o-> {       n[8841]     },     l-> {       e[9674]     }   } } t=[1976]-> {  e-> {    d[2302]  },  s[4465],  i-> {    n-> {      g[5133]    },    o-> {      n[8841]    },    l-> {      e[9674]    }  } }
+
     private AVLNode rotateWithChild(int child, AVLNode k2) {
         AVLNode k1 = toAVL(k2.children[child]);
         k2.children[child] = k1.children[1-child];

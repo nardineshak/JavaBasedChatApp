@@ -32,7 +32,7 @@ public class AutocompleteTrie extends HashTrieMap<Character, AlphabeticString, I
                 return null;
             }
 
-            result += current.pointers.iterator().next();
+            result += current.pointers.iterator().next().key;
             current = current.pointers.iterator().next().value;
         }
 

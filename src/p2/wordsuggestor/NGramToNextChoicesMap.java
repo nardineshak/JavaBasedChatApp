@@ -82,11 +82,11 @@ public class NGramToNextChoicesMap {
             //top K values but in ascending order, we want the more frequent ones first
             TopKSort.sort(afterNGrams, k, comp.reversed());
             int length = k;
-            // k = 2
-            // ngram= "i am" nardin
-            //check if afterNGrams is less than k
-            //k represents # of words we want to suggest
-            //afterNgrams is possibility of things we can provide
+//            // k = 2
+//            // ngram= "i am" nardin
+//            //check if afterNGrams is less than k
+//            //k represents # of words we want to suggest
+//            //afterNgrams is possibility of things we can provide
             if (afterNGrams.length < k) {
                 length = afterNGrams.length;
             }
