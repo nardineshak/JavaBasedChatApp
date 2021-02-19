@@ -135,22 +135,22 @@ public class ChainingHashTable<K, V> extends DeletelessDictionary<K, V> {
         public Item<K, V> next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
-            }else {
-                if(currentItr == null){
-                    while(currentIndex < hashTable.length && hashTable[currentIndex] == null){
+            } else {
+                if (currentItr == null) {
+                    while (currentIndex < hashTable.length && hashTable[currentIndex] == null) {
                         currentIndex++;
                     }
-                    if(currentIndex >= hashTable.length){
+                    if (currentIndex >= hashTable.length) {
                         return null;
                     }
                     currentItr = hashTable[currentIndex].iterator();
                 }
-                if(!currentItr.hasNext()){
+                if (!currentItr.hasNext()) {
                     currentIndex++;
-                    while(currentIndex < hashTable.length && hashTable[currentIndex] == null){
+                    while (currentIndex < hashTable.length && hashTable[currentIndex] == null) {
                         currentIndex++;
                     }
-                    if(currentIndex >= hashTable.length){
+                    if (currentIndex >= hashTable.length) {
                         return null;
                     }
                     currentItr = hashTable[currentIndex].iterator();

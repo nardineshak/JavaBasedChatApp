@@ -9,54 +9,54 @@ public class QuickSort {
 
 
     public static <E> void sort(E[] array, Comparator<E> comparator) {
-        if(array.length > 0){
+        if (array.length > 0) {
             quickSort(array, comparator, 0, array.length - 1);
         }
     }
 
     private static <E> void quickSort(E[] array, Comparator<E> comparator, int lo, int hi) {
         //find the pivot using the 3 median method
-        int pivotIndex = median3(array, lo, hi, lo + (hi - lo)/2 , comparator);
+        int pivotIndex = median3(array, lo, hi, lo + (hi - lo) / 2, comparator);
         E pivot = array[pivotIndex];
         // swap pivot with arr[lo];
-//        swap(array, lo, pivotIndex);
-//        pivotIndex = lo;
+        //        swap(array, lo, pivotIndex);
+        //        pivotIndex = lo;
         int i = lo;
         int j = hi; //might be just hi
-        while(i <= j){
+        while (i <= j) {
             while (comparator.compare(array[i], pivot) < 0) {
                 i++;
             }
-            while(comparator.compare(array[j], pivot) > 0){
+            while (comparator.compare(array[j], pivot) > 0) {
                 j--;
             }
-            if(i <= j){
-                swap(array, i , j);
+            if (i <= j) {
+                swap(array, i, j);
                 i++;
                 j--;
             }
-//            if(comparator.compare(array[j], pivot) > 0){
-//                j--;
-//            }else if (comparator.compare(array[i], pivot) <= 0) {
-//                i++;
-//            }else{
-//                swap(array, i, j);
-//            }
+            //            if(comparator.compare(array[j], pivot) > 0){
+            //                j--;
+            //            }else if (comparator.compare(array[i], pivot) <= 0) {
+            //                i++;
+            //            }else{
+            //                swap(array, i, j);
+            //            }
         }
-//        swap(array, i, pivotIndex);
-//        pivotIndex = i;
+        //        swap(array, i, pivotIndex);
+        //        pivotIndex = i;
         //recurse
-        if (lo < j){
+        if (lo < j) {
             quickSort(array, comparator, lo, j);
         }
-        if (hi > i){
-            quickSort(array, comparator, i , hi);
+        if (hi > i) {
+            quickSort(array, comparator, i, hi);
         }
-//        quickSort(array, comparator, 0, pivotIndex);
-//        quickSort(array, comparator, pivotIndex, hi);
+        //        quickSort(array, comparator, 0, pivotIndex);
+        //        quickSort(array, comparator, pivotIndex, hi);
     }
 
-    private static <E> int median3(E[] array, int loIndex, int hiIndex, int medianIndex, Comparator comparator){
+    private static <E> int median3(E[] array, int loIndex, int hiIndex, int medianIndex, Comparator comparator) {
         if ((comparator.compare(array[loIndex], array[hiIndex]) < 0 && comparator.compare(array[hiIndex], array[medianIndex]) < 0)
                 || (comparator.compare(array[medianIndex], array[hiIndex]) < 0 && comparator.compare(array[hiIndex], array[loIndex]) < 0)) {
             return hiIndex;
@@ -69,15 +69,12 @@ public class QuickSort {
     }
 
 
-
-
     private static <E> void swap(E[] array, int index1, int index2) {
         E temp = array[index1];
         array[index1] = array[index2];
         array[index2] = temp;
     }
 }
-
 
 
 //average of two numbers without overflowing
