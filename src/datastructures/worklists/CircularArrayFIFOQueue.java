@@ -11,8 +11,6 @@ import java.util.NoSuchElementException;
  */
 public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOWorkList<E> {
 
-    public static final boolean useBadHashCode = false;
-
     private E[] circularArray;
     private int head;
     private int tail;
@@ -155,9 +153,6 @@ public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOW
 
     @Override
     public int hashCode() {
-        if (useBadHashCode) {
-            return 1;
-        }
         int hash = 0;
         for (int i = 0; i < size; i++) {
             hash = 31 * hash + peek(i).hashCode();
