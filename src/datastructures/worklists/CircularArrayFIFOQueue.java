@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  */
 public class CircularArrayFIFOQueue<E extends Comparable> extends FixedSizeFIFOWorkList<E> {
 
-    public static boolean useBadHashCode = false;
+    public static final boolean useBadHashCode = false;
 
     private E[] circularArray;
     private int head;
